@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActiveObjMakerTemp : MonoBehaviour {
+
 	private GameObject player;
-	private int i = 1;
 	GameObject activeObj;
 	public GameObject objPrefab;
 
 	public int limit;
+	private int i = 1;
+
 	public float rangeXmin;
 	public float rangeXmax;
 	public float rangeZmin;
 	public float rangeZmax;
 	public float distMin;
 	public float distMax;
-
 
 	// Use this for initialization
 	void Start () {
@@ -29,7 +30,6 @@ public class ActiveObjMakerTemp : MonoBehaviour {
 		{
 			makeObject();
 		}
-			
 	}
 
 	// pick predator position and put them in. Teleport when pos not good

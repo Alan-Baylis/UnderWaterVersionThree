@@ -17,14 +17,12 @@ public class PlayerControl : MonoBehaviour {
 	{
 		playerLight = GetComponent<Light>();
 		oriLtRange = playerLight.range;
-
 	}
 	
 	// Update is called once per frame
 	void Update () 
-
 	{
-		if (cubeFound = false){
+		if (cubeFound == false){
 			cube = GameObject.Find ("Cube");
 			Debug.Log (cube.transform.position);
 			cubePos = cube.transform.position;
@@ -37,8 +35,6 @@ public class PlayerControl : MonoBehaviour {
 		float distToCube = Vector3.Distance (transform.position, cubePos);
 
 		playerLight.range = oriLtRange * (1f + 0.15f * amplitude + 0.07f * (distToCubeOri - distToCube));
-//		Debug.Log (playerLight.range);
-
 	}
 }
 

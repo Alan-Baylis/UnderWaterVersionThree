@@ -3,9 +3,6 @@ using System.Collections;
 
 public class CubeControl : MonoBehaviour {
 
-	//public 	Light playerLight;
-
-
 	// Use this for initialization
 	void Start () 
 	{
@@ -16,12 +13,5 @@ public class CubeControl : MonoBehaviour {
 	void Update () 
 	{
 		transform.Rotate (new Vector3 (45, 15, 30) * Time.deltaTime);
-	}
-
-	void OnCollisionEnter(Collision other)
-	{
-		if (other.gameObject.tag == "Player") {
-			Debug.Log ("win");
-		} 
 	}
 }

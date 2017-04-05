@@ -13,6 +13,7 @@ public class blackCurtainControl : MonoBehaviour {
 
 	public bool gameEnded = false;
 	private bool fading = false;
+
 	public Text endText;
 
 	// Use this for initialization

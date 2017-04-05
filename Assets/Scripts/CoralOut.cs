@@ -21,21 +21,4 @@ public class CoralOut : MonoBehaviour {
 
 		transform.position = position + heightAdjust;
 	}
-
-	void OnCollisionEnter(Collision other)
-	{
-		if (other.gameObject.tag == "Player") {
-			GameObject.Find ("PlayerShell").GetComponent<PlayerShellControl> ().speed = 3.0f;
-		} 
-
-		if(other.gameObject.tag == "Predator")
-		{
-			other.gameObject.GetComponent<PredatorControl>().predatorMF = 15;
-		}
-
-		if(other.gameObject.tag == "PredatorStraight")
-		{
-			other.gameObject.GetComponent<PredatorStraightControl>().predatorMF = 2;
-		}
-	}
 }

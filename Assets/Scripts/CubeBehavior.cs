@@ -25,42 +25,6 @@ public class CubeBehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		TransformationFunction(0.2f);
-/*		highWaveTimer += Time.deltaTime;
-		if (highWaveTimer >= 10) {
-			isWaving = true;
-		}
-
-		// highwaving
-		if (isWaving == true && highWavingCounter <= 3) {
-			heightAdjust = new Vector3 (
-				0.0f, 
-				3 * Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f), 
-				0.0f);
-
-			if (heightAdjust.y <= -2.9f) {
-				highWavingCounter += 1;
-			}
-		
-		//stopping highwaving
-		}
-		else if (isWaving == true && highWavingCounter > 3){
-				isWaving = false;
-				highWaveTimer = 0.0f;
-				highWavingCounter = 0;
-			
-			}
-		else {
-				heightAdjust = new Vector3(0.0f, 0.0f, 0.0f);
-			}
-			
-		if (heightAdjust.y <= 0f) {
-				col.enabled = false;
-			} 
-		else {
-				col.enabled = true;
-			}
-
-		transform.position = transform.position + heightAdjust;*/
 	}
 
 	void DefaultSineMovement(float offset) {

@@ -21,17 +21,4 @@ public class CoralIn : MonoBehaviour {
 
 		transform.position = position + heightAdjust;
 	}
-
-	void OnCollisionEnter(Collision other)
-	{
-		if(other.gameObject.tag == "Player")
-		{
-			GameObject.Find ("PlayerShell").GetComponent<PlayerShellControl>().speed = 2.0f;
-		}
-
-		if(other.gameObject.tag == "Predator")
-		{
-			other.gameObject.GetComponent<PredatorControl>().predatorMF = 5;
-		}
-	}
 }
