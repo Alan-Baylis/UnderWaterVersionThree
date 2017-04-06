@@ -10,6 +10,12 @@ public class CameraControl : MonoBehaviour {
 //	public float MoveSpeed = 10f;
 
 	private Vector3 playerVelocity;
+
+	public float targetAngle;
+
+	public float maxDistance;
+
+	public float minDistance;
 	
 	// Use this for initialization
 	void Start () 
@@ -53,7 +59,7 @@ public class CameraControl : MonoBehaviour {
 		Ray shootingRay = new Ray(transform.position, Vector3.down);
 		if(Physics.Raycast(shootingRay, out hit, 100)) {
 			Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < 60) {
+			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < targetAngle) {
 				transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
 			}
 			else {
@@ -69,12 +75,10 @@ public class CameraControl : MonoBehaviour {
 		} 
 
 		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-		if(Vector3.Distance(transform.position, newPos) > 1.2f){
-			Debug.Log("Moving closer");
+		if(Vector3.Distance(transform.position, newPos) > maxDistance){
 			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
 		}
-		else if(Vector3.Distance(transform.position, newPos) < 0.5f){
-			Debug.Log("Moving farther");
+		else if(Vector3.Distance(transform.position, newPos) < minDistance){
 			transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
 		}
 		//transform.position = player.transform.position + offset;
