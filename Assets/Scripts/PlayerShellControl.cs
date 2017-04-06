@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public class PlayerShellControl : MonoBehaviour {
-	float speed = 350; 
+	float speed = 370; 
 	public float floatingControl;
 	public float speedDown;
 	public int touchCount;

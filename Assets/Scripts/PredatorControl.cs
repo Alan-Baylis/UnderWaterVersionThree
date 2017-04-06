@@ -15,11 +15,14 @@ public class PredatorControl : MonoBehaviour {
 
 	Rigidbody rbPredator;
 	bool minusAlready = false;
-	bool isShaking = false;
+//	bool isShaking = false;
 	bool attacking = false;
 
 	public Material predatorMat;
 	public Material predatorAttMat;
+
+	private Vector3 heightAdjust;
+	private Vector3 posOri;
 
 	// Use this for initialization
 	void Start (){
@@ -53,6 +56,20 @@ public class PredatorControl : MonoBehaviour {
 
 	// fake as exist when player is far
 	void Idle(){
+		// raycasting way of floating
+		Ray floatRay = new Ray(transform.position, Vector3.down * 10);
+		RaycastHit floatRayhit;
+
+		if (Physics.Raycast (floatRay, out floatRayhit, 10f)) {
+			// get the game object's y, change itself to make itself float
+			if (floatRayhit.collider.gameObject.tag == "GroundCube"){
+				Vector3 groundCubePos;
+				Vector3 temp = transform.position;
+				groundCubePos = floatRayhit.collider.gameObject.transform.position;
+				transform.position = Vector3.Lerp (temp,new Vector3 (temp.x, groundCubePos.y + 2.2f, temp.z),0.1f);
+			}
+		}
+
 		transform.Rotate (new Vector3 (45, 15, 30) * Time.deltaTime);
 	}
 
@@ -70,27 +87,22 @@ public class PredatorControl : MonoBehaviour {
 
 	// stop attack when player escape (far enough)
 	void StopAttack(){
-		Debug.Log ("Escaped");
 	}
 
-	IEnumerator ShakeRoutine(){
-		isShaking = true;
-		ShakeCamera sc= GameObject.Find ("GameMaster").GetComponent<ShakeCamera> ();
-		sc.enabled = true;
-		yield return new WaitForSeconds (1f);
-		sc.enabled = false;
-		isShaking = false;
-	}
+//	IEnumerator ShakeRoutine(){
+//		isShaking = true;
+//		ShakeCamera sc= GameObject.Find ("GameMaster").GetComponent<ShakeCamera> ();
+//		sc.enabled = true;
+//		yield return new WaitForSeconds (1f);
+//		sc.enabled = false;
+//		isShaking = false;
+//	}
 
 	void OnCollisionEnter(Collision other)
 	{
 		if(other.gameObject.tag == "Predator")
 		{
 			GameObject.Destroy (other.gameObject);
-			Debug.Log ("they've killed each other!");
 		}
-//
-//		if (other.gameObject.tag == "Player") {
-//		} 
 	}
 }

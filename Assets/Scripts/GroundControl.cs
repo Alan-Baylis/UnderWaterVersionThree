@@ -12,7 +12,7 @@ public class GroundControl : MonoBehaviour {
 
 	public bool touchingHighWaveMaker = false;
 
-	Vector3 heightAdjust;
+	private Vector3 heightAdjust;
 
 	// Use this for initialization
 	void Start () {

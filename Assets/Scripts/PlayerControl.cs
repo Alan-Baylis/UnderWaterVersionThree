@@ -17,19 +17,17 @@ public class PlayerControl : MonoBehaviour {
 	{
 		playerLight = GetComponent<Light>();
 		oriLtRange = playerLight.range;
+		cube = GameObject.FindGameObjectWithTag ("WhiteCube");
+		cubePos = cube.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		if (cubeFound == false){
-			cube = GameObject.FindGameObjectWithTag ("WhiteCube");
-			Debug.Log (cube.transform.position);
-			cubePos = cube.transform.position;
 			distToCubeOri = Vector3.Distance (transform.position, cubePos);
 
 			cubeFound = true;
-		}
+
 
 		float amplitude = (Mathf.Sin (2.0f * Time.time) + 1.0f) * lightAmplitudeControl;	
 		float distToCube = Vector3.Distance (transform.position, cubePos);

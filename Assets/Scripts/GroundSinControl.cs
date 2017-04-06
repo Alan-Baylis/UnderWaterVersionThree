@@ -93,6 +93,9 @@ public class GroundSinControl : MonoBehaviour {
 			);
 //		}
 		
+		//transform.position = posOri + heightAdjust;
+
+		//rb.MovePosition (posOri + heightAdjust);//
 		transform.position = posOri + heightAdjust;
 	}
 //
