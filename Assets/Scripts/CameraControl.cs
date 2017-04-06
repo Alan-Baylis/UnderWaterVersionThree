@@ -47,23 +47,34 @@ public class CameraControl : MonoBehaviour {
 		Vector3 curRotation = player.transform.rotation.eulerAngles;
 		transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 		transform.LookAt(player.transform);
+		Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
+
 		RaycastHit hit;
 		Ray shootingRay = new Ray(transform.position, Vector3.down);
 		if(Physics.Raycast(shootingRay, out hit, 100)) {
 			Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-			if(hit.distance > 2) {
-			transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
+			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < 60) {
+				transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
 			}
 			else {
 				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.005f);
 			}
+			/*if(hit.distance > 2) {
+			transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
+			}
+			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > 40){
+				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.005f);
+			}*/
 
 		} 
+
 		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-		if(Vector3.Distance(transform.position, newPos) > 2){
-			transform.position = Vector3.Lerp(transform.position, newPos, 0.005f);
+		if(Vector3.Distance(transform.position, newPos) > 1.2f){
+			Debug.Log("Moving closer");
+			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
 		}
-		else if(Vector3.Distance(transform.position, newPos) < 1){
+		else if(Vector3.Distance(transform.position, newPos) < 0.5f){
+			Debug.Log("Moving farther");
 			transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
 		}
 		//transform.position = player.transform.position + offset;

@@ -23,7 +23,7 @@ public class PlayerControl : MonoBehaviour {
 	void Update () 
 	{
 		if (cubeFound == false){
-			cube = GameObject.Find ("Cube");
+			cube = GameObject.Find ("Cube(Clone)");
 			Debug.Log (cube.transform.position);
 			cubePos = cube.transform.position;
 			distToCubeOri = Vector3.Distance (transform.position, cubePos);
