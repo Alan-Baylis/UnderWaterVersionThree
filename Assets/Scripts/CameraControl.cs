@@ -11,7 +11,9 @@ public class CameraControl : MonoBehaviour {
 
 	private Vector3 playerVelocity;
 
-	public float targetAngle;
+	public float minAngle;
+
+	public float maxAngle;
 
 	public float maxDistance;
 
@@ -50,10 +52,6 @@ public class CameraControl : MonoBehaviour {
 
 	void LateUpdate () 
 	{ 
-		Vector3 curRotation = player.transform.rotation.eulerAngles;
-		transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
-		transform.LookAt(player.transform);
-		Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
 
 		RaycastHit hit;
 		Ray shootingRay = new Ray(transform.position, Vector3.down);
@@ -61,11 +59,14 @@ public class CameraControl : MonoBehaviour {
 			Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
 			if(hit.distance < 1) {
 				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.015f);
+				Debug.Log("moving up to avoid ground");
 			}
-			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < targetAngle) {
+			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
 				transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
+				Debug.Log("moving down");
 			}
-			else {
+			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
+				Debug.Log("Moving up to maintain angle");
 				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.005f);
 			}
 		} 
@@ -77,6 +78,9 @@ public class CameraControl : MonoBehaviour {
 		else if(Vector3.Distance(transform.position, newPos) < minDistance){
 			transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
 		}
+		Vector3 curRotation = player.transform.rotation.eulerAngles;
+		transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
+		transform.LookAt(player.transform);
 		//transform.position = player.transform.position + offset;
 ////
   // camera rotating part 2, commend out the "+ offset" line and use below
