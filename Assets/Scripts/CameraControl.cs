@@ -18,6 +18,8 @@ public class CameraControl : MonoBehaviour {
 	public float maxDistance;
 
 	public float minDistance;
+
+	public float cameraCorrectionSpeed;
 	
 	// Use this for initialization
 	void Start () 
@@ -59,15 +61,12 @@ public class CameraControl : MonoBehaviour {
 			Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
 			if(hit.distance < 1) {
 				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.015f);
-				Debug.Log("moving up to avoid ground");
 			}
 			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
-				transform.position = Vector3.Lerp(transform.position, verticalVector, 0.005f);
-				Debug.Log("moving down");
+				transform.position = Vector3.Lerp(transform.position, verticalVector, cameraCorrectionSpeed);
 			}
 			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
-				Debug.Log("Moving up to maintain angle");
-				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.005f);
+				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
 			}
 		} 
 

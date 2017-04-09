@@ -13,11 +13,15 @@ public class PlayerControl : MonoBehaviour {
 	bool cubeFound = false;
 	
 	// Use this for initialization
-	void Start () 
+	IEnumerator Start () 
 	{
 		playerLight = GetComponent<Light>();
 		oriLtRange = playerLight.range;
 		cube = GameObject.FindGameObjectWithTag ("WhiteCube");
+		while(cube == null) {
+			cube = GameObject.FindGameObjectWithTag("WhiteCube");
+			yield return null;
+		}
 		cubePos = cube.transform.position;
 	}
 	

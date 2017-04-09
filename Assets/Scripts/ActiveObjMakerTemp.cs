@@ -9,7 +9,6 @@ public class ActiveObjMakerTemp : MonoBehaviour {
 	public GameObject objPrefab;
 
 	public int limit;
-	private int i = 1;
 
 	public float rangeXmin;
 	public float rangeXmax;
@@ -21,13 +20,8 @@ public class ActiveObjMakerTemp : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		player = GameObject.Find ("PlayerShell");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-		if (i < limit) 
-		{
+
+		for(int i = 0; i < limit; i++) {
 			makeObject();
 		}
 	}
@@ -36,11 +30,10 @@ public class ActiveObjMakerTemp : MonoBehaviour {
 	void makeObject(){ 
 		Vector3 rndObjPos = new Vector3 (Random.Range(rangeXmin, rangeXmax), 1.1f, Random.Range(rangeZmin, rangeZmax));
 		float dist = Vector3.Distance(player.transform.position, rndObjPos);
-
-		if (dist > distMin && dist < distMax) 
-		{
-			activeObj = Instantiate (objPrefab,rndObjPos, Quaternion.identity) as GameObject;
-			i ++;
+		while(dist < distMin || dist > distMax) {
+			rndObjPos = new Vector3 (Random.Range(rangeXmin, rangeXmax), 1.1f, Random.Range(rangeZmin, rangeZmax));
+			dist = Vector3.Distance(player.transform.position, rndObjPos);
 		}
+		activeObj = Instantiate (objPrefab,rndObjPos, Quaternion.identity) as GameObject;
 	}
 }
