@@ -10,6 +10,7 @@ public class PlayerShellControl : MonoBehaviour {
 	public float speedDown;
 	public int touchCount;
 	public float shakeTimer;
+	public int health = 6;
 	public Vector3 movement;
 	public GameObject player;
 
@@ -26,6 +27,7 @@ public class PlayerShellControl : MonoBehaviour {
 	{
 		black = Color.black;
 		jellyMesh = GetComponent<JellyMesh>();
+		Debug.Log(health);
 	}
 	
 	// Update is called once per frame
@@ -61,9 +63,25 @@ public class PlayerShellControl : MonoBehaviour {
 			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white);
 		}
 
-		if(collision.Collision.gameObject.tag == "Predator" || collision.Collision.gameObject.tag == "PredatorStraight" && hasWon == false)
+		if(collision.Collision.gameObject.tag == "Predator" || collision.Collision.gameObject.tag == "PredatorStraight")
 		{
-			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red);
+			SubtractLife(1);
+			Destroy(collision.Collision.gameObject);
+			collision.Collision.gameObject.tag = "Finish";
 		}
 	}
+
+	public void AddLife(int amount) {
+		health += amount;
+		Debug.Log("Gained " + amount.ToString() + " life");
+	}
+
+	public void SubtractLife(int amount) {
+		health -= amount;
+		Debug.Log("Lost " + amount.ToString() + " life");
+		Debug.Log("Life Amount " + health.ToString());
+		if(health <= 0 && hasWon == false) {
+			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red);
+		}
+	} 
 }
