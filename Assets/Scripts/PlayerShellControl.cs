@@ -69,6 +69,11 @@ public class PlayerShellControl : MonoBehaviour {
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 		}
+		if(collision.Collision.gameObject.tag == "HealthUp") {
+			AddLife(1);
+			Destroy(collision.Collision.gameObject);
+			collision.Collision.gameObject.tag = "Finish";
+		}
 	}
 
 	public void AddLife(int amount) {
