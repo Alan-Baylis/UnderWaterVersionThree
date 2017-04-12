@@ -20,12 +20,19 @@ public class CameraControl : MonoBehaviour {
 	public float minDistance;
 
 	public float cameraCorrectionSpeed;
+
+	private bool begun;
 	
 	// Use this for initialization
-	void Start () 
+	IEnumerator Start () 
 	{
+		begun = false;
 		player = GameObject.Find ("PlayerShell");
 		offset = transform.position - player.transform.position;
+		while(!Input.anyKeyDown) {
+			yield return null;
+		}
+		begun = true;
 //		playerVelocity = new Vector3 (0, 0, 10);
 	}
 
@@ -54,32 +61,33 @@ public class CameraControl : MonoBehaviour {
 
 	void LateUpdate () 
 	{ 
+		if(begun) {
+			RaycastHit hit;
+			Ray shootingRay = new Ray(transform.position, Vector3.down);
+			if(Physics.Raycast(shootingRay, out hit, 100)) {
+				Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
+				if(hit.distance < 1) {
+					transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.015f);
+				}
+				if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
+					transform.position = Vector3.Lerp(transform.position, verticalVector, cameraCorrectionSpeed);
+				}
+				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
+					transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
+				}
+			} 
 
-		RaycastHit hit;
-		Ray shootingRay = new Ray(transform.position, Vector3.down);
-		if(Physics.Raycast(shootingRay, out hit, 100)) {
-			Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-			if(hit.distance < 1) {
-				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.015f);
+			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+			if(Vector3.Distance(transform.position, newPos) > maxDistance){
+				transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
 			}
-			if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
-				transform.position = Vector3.Lerp(transform.position, verticalVector, cameraCorrectionSpeed);
+			else if(Vector3.Distance(transform.position, newPos) < minDistance){
+				transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
 			}
-			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
-				transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
-			}
-		} 
-
-		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-		if(Vector3.Distance(transform.position, newPos) > maxDistance){
-			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
+			Vector3 curRotation = player.transform.rotation.eulerAngles;
+			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
+			transform.LookAt(player.transform);
 		}
-		else if(Vector3.Distance(transform.position, newPos) < minDistance){
-			transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
-		}
-		Vector3 curRotation = player.transform.rotation.eulerAngles;
-		transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
-		transform.LookAt(player.transform);
 		//transform.position = player.transform.position + offset;
 ////
   // camera rotating part 2, commend out the "+ offset" line and use below
