@@ -13,10 +13,12 @@ public class PlayerShellControl : MonoBehaviour {
 	public int health = 6;
 	public Vector3 movement;
 	public GameObject player;
+	public GameObject cubePlayerIsOn;
 
 	private Rigidbody rb;
 	private JellyMesh jellyMesh;
 	private Color black;
+
 
 	public bool hasWon = false;
 	public bool hasLost = false;
@@ -73,6 +75,10 @@ public class PlayerShellControl : MonoBehaviour {
 			AddLife(1);
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
+		}
+		if (collision.Collision.gameObject.tag == "GroundCube") {
+			cubePlayerIsOn = collision.Collision.gameObject;
+		
 		}
 	}
 

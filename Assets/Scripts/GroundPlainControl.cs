@@ -15,17 +15,16 @@ public class GroundPlainControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-//
-//		heightAdjust = new Vector3 (
-//			0.0f, 
-//			Mathf.Sin (Time.time /*- transform.position.x * 0.2f - transform.position.z * 0.2f*/), 
-//			0.0f);
+
+		heightAdjust = new Vector3 (
+			0.0f, 
+			Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) - 0.2f, 
+			0.0f);
 
 		transform.RotateAround(
 			posOri, 
-			//Vector3.one, 
-			Vector3.forward/* Mathf.Pow(-1, Mathf.Floor(Time.time))*/,
-			2.5f * Time.deltaTime * Mathf.Cos(Time.time /*+transform.position.x + transform.position.z */)
+			Vector3.forward,
+			2.5f * Time.deltaTime * Mathf.Cos(Time.time)
 		);
 
 		transform.position = posOri + heightAdjust;
