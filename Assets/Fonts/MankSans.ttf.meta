@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6a1bc5ab1812448009c43a16bd14e241
+timeCreated: 1492096375
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: MankSans
+  fontNames:
+  - MankSans
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
