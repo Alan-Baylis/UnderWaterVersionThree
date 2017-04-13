@@ -22,7 +22,9 @@ public class BGMController : MonoBehaviour {
 //		}
 
 		if (player != null) {
-			val = 0.5f * player.transform.position.y;
+//			val = 0.5f * player.transform.position.y;
+			val = Mathf.Sin (Time.time - player.transform.position.x * 0.2f - player.transform.position.z * 0.2f);
+
 		} 
 
 		bgm.volume = val; //Mathf.Sin (0.2f * Time.time)* Mathf.Sin(0.2f* Time.time);

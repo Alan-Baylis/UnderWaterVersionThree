@@ -61,6 +61,7 @@ public class PlayerShellControl : MonoBehaviour {
 	{
 		if(collision.Collision.gameObject.tag == "WhiteCube")
 		{
+			Debug.Log ("collison with white cube");
 			hasWon = true;
 			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white);
 		}
@@ -76,10 +77,10 @@ public class PlayerShellControl : MonoBehaviour {
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 		}
-		if (collision.Collision.gameObject.tag == "GroundCube") {
-			cubePlayerIsOn = collision.Collision.gameObject;
-		
-		}
+//		if (collision.Collision.gameObject.tag == "GroundCube") {
+//			cubePlayerIsOn = collision.Collision.gameObject;
+//		
+//		}
 	}
 
 	public void AddLife(int amount) {

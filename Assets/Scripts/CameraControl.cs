@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class CameraControl : MonoBehaviour {
 
+
+	Image titleText;
+	Text instructionText;
 	public GameObject player;
 
 	private Vector3 offset;
@@ -26,12 +30,15 @@ public class CameraControl : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () 
 	{
+		titleText = GameObject.Find ("TitleImage").GetComponent<Image> ();
+		instructionText = GameObject.Find ("startText").GetComponent<Text> ();
 		begun = false;
 		player = GameObject.Find ("PlayerShell");
 		offset = transform.position - player.transform.position;
-		while(!Input.anyKeyDown) {
+		while(!Input.anyKey) {
 			yield return null;
 		}
+		StartCoroutine (FadeOutText ());
 		begun = true;
 //		playerVelocity = new Vector3 (0, 0, 10);
 	}
@@ -96,4 +103,22 @@ public class CameraControl : MonoBehaviour {
 //		transform.LookAt (player.transform);
 	}
 
+	IEnumerator FadeOutText() {
+		Color startColorTitle = titleText.color;
+		Color endColorTitle = startColorTitle;
+		endColorTitle.a = 0;
+
+		Color startColorInstruction = instructionText.color;
+		Color endColorInstruction = startColorInstruction;
+		endColorInstruction.a = 0;
+
+		for (float t = 0; t <= 1; t += Time.deltaTime) {
+			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
+			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
+			yield return null;
+		}
+
+		Destroy (titleText.gameObject);
+		Destroy (instructionText.gameObject);
+	}
 }
