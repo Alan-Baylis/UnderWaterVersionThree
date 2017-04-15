@@ -6,6 +6,7 @@ public class GroundSinControl : MonoBehaviour {
 	
 	private Vector3 posOri;
 	Vector3 heightAdjust;
+	public static float amplitudeModifier = 0.3f;
 
 	// Use this for initialization
 	void Start () {
@@ -16,8 +17,8 @@ public class GroundSinControl : MonoBehaviour {
 	void Update () {
 
 		heightAdjust = new Vector3 (
-			0.0f, 
-			Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f), 
+			0.0f,
+			CalculateSinPosition(transform.position), 
 			0.0f);
 
 			transform.RotateAround (
@@ -26,6 +27,10 @@ public class GroundSinControl : MonoBehaviour {
 				2.5f * Time.deltaTime * Mathf.Cos (Time.time)
 			);
 
-		transform.position = posOri + heightAdjust;
+		transform.position = posOri + (heightAdjust * amplitudeModifier);
+	}
+
+	public static float CalculateSinPosition(Vector3 position) {
+		return Mathf.Sin(Time.time - position.x * 0.2f - position.z * 0.2f);
 	}
 }

@@ -52,9 +52,8 @@ public class PlayerShellControl : MonoBehaviour {
 		float moveVertical = Input.GetAxis ("Vertical");
 
 		Vector3 forwardProjection = transform.position + (forwardVector * 2);
-		float projectedSlope = Mathf.Sin (Time.time - Time.deltaTime - forwardProjection.x * 0.2f - forwardProjection.z * 0.2f);
 		float hillModifier;
-		if(Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) > projectedSlope){
+		if(GroundSinControl.CalculateSinPosition(transform.position) > GroundSinControl.CalculateSinPosition(forwardProjection)){
 			hillModifier = 1.5f;
 		}
 		else {

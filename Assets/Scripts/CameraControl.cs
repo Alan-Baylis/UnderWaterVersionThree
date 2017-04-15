@@ -39,6 +39,7 @@ public class CameraControl : MonoBehaviour {
 			yield return null;
 		}
 		StartCoroutine (FadeOutText ());
+		StartCoroutine(GameStartAmplitude());
 		begun = true;
 //		playerVelocity = new Vector3 (0, 0, 10);
 	}
@@ -120,5 +121,14 @@ public class CameraControl : MonoBehaviour {
 
 		Destroy (titleText.gameObject);
 		Destroy (instructionText.gameObject);
+	}
+
+	IEnumerator GameStartAmplitude() {
+		float startAmplitude = GroundSinControl.amplitudeModifier;
+		float lerpTime = 2;
+		for(float t = 0; t <= lerpTime; t += Time.deltaTime) {
+			GroundSinControl.amplitudeModifier = Mathf.SmoothStep(startAmplitude, 1, t / lerpTime); 
+			yield return null;
+		}
 	}
 }
