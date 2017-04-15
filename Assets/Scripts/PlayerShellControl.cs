@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 public class PlayerShellControl : MonoBehaviour {
-	float speed = 370; 
+	public float speed = 370; 
 	public float floatingControl;
 	public float speedDown;
 	public int touchCount;
@@ -44,7 +44,7 @@ public class PlayerShellControl : MonoBehaviour {
 			}
 		}
 	}
-	
+
 	void FixedUpdate()
 	{
 		float moveHorizontal = Input.GetAxis ("Horizontal");

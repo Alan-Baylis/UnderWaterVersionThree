@@ -112,7 +112,7 @@ public class CameraControl : MonoBehaviour {
 		Color endColorInstruction = startColorInstruction;
 		endColorInstruction.a = 0;
 
-		for (float t = 0; t <= 1; t += Time.deltaTime) {
+		for (float t = 0; t <= 1; t += 0.5f*Time.deltaTime) {
 			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
 			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
 			yield return null;
