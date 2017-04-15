@@ -29,7 +29,7 @@ public class GridManager : MonoBehaviour {
 			string temp = levelMap.text;
 			string[] lines = temp.Split('\n');
 
-			GameObject tempBlock = Resources.Load<GameObject>("BasicCube");
+			GameObject tempBlock = Resources.Load<GameObject>("GroundSinWave0.2Blue0");
 			CubeBehavior.gridManager = this;
 			SetGridDimensions(lines);
 			for(int i = 0; i < lines.Length; i++) {
