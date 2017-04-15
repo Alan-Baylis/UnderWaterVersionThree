@@ -14,6 +14,7 @@ public class PlayerShellControl : MonoBehaviour {
 	public Vector3 movement;
 	public GameObject player;
 	public GameObject cubePlayerIsOn;
+	private Vector3 forwardVector;
 
 	private Rigidbody rb;
 	private JellyMesh jellyMesh;
@@ -27,9 +28,9 @@ public class PlayerShellControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		forwardVector = transform.forward;
 		black = Color.black;
 		jellyMesh = GetComponent<JellyMesh>();
-		Debug.Log(health);
 	}
 	
 	// Update is called once per frame
@@ -49,9 +50,18 @@ public class PlayerShellControl : MonoBehaviour {
 	{
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
-		
-		movement = Camera.main.transform.forward * moveVertical;
 
+		Vector3 forwardProjection = transform.position + (forwardVector * 2);
+		float projectedSlope = Mathf.Sin (Time.time - Time.deltaTime - forwardProjection.x * 0.2f - forwardProjection.z * 0.2f);
+		float hillModifier;
+		if(Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) > projectedSlope){
+			hillModifier = 1.5f;
+		}
+		else {
+			hillModifier = 0.95f;
+		}
+		forwardVector = Quaternion.AngleAxis(moveHorizontal, Vector3.up) * forwardVector;
+		movement = forwardVector * moveVertical;
 		jellyMesh.AddForce(movement * speed,true);
 
 		Camera.main.transform.RotateAround(transform.position, Vector3.up, moveHorizontal);
