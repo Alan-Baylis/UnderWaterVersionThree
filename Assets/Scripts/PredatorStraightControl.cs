@@ -11,6 +11,7 @@ public class PredatorStraightControl : MonoBehaviour {
 	public float predatorMF;
 	public float attackDist;
 	public float escapeDist;
+	public float attackTime;
 	float distToPlayer;
 
 	Rigidbody rbPredator;
@@ -87,22 +88,32 @@ public class PredatorStraightControl : MonoBehaviour {
 			transform.position = Vector3.Lerp(startPosition, loomingPos, t);
 			yield return null;
 		}
+		while(attacking) {
 		loomingPos = player.transform.position + new Vector3(0, 1.2f, 0);
 		for(float t = 0; t < 3; t += Time.deltaTime) {
 			transform.LookAt(player.transform);
 			transform.RotateAround(loomingPos, Vector3.up, 20 * Time.deltaTime);
 			yield return null;
 		}
-		/*while(attacking) {
 			transform.LookAt(player.transform);
-			Vector3 divingVector = player.transform.position - transform.position;
-			for(float t = 0; t < 1; t += Time.deltaTime) {
-				transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
+			Vector3 divingVector = player.transform.position;
+			divingVector.y = Mathf.Sin(Time.time + attackTime - player.transform.position.x * 0.2f - player.transform.position.z * 0.2f);
+			Vector3 startPos = transform.position;
+			for(float t = 0; t < attackTime; t += Time.deltaTime) {
+				transform.LookAt(divingVector);
+				transform.position = Vector3.Slerp(startPos, divingVector, t / attackTime);
+				//transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
+				yield return null;
+			}
+			for(float t = 0; t < attackTime; t += Time.deltaTime) {
+				transform.LookAt(divingVector);
+				transform.position = Vector3.Slerp(divingVector, startPos, t / attackTime);
+				//transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
 				yield return null;
 			}
 			yield return new WaitForSeconds(2);
-		}*/
-		// lerp to player
+		}
+		/*// lerp to player
 		do {
 			transform.LookAt (player.transform);
 			Debug.Log("Attack!");
@@ -134,7 +145,7 @@ public class PredatorStraightControl : MonoBehaviour {
 			//Vector3 temp = transform.position;
 			//transform.position = Vector3.Lerp (temp, player.transform.position, 0.1f);
 			yield return new WaitForSeconds(2);
-		} while(attacking);
+		} while(attacking);*/
 
 		Debug.Log("Not attacking anymore");
 	}	
