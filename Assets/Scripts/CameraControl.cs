@@ -75,13 +75,13 @@ public class CameraControl : MonoBehaviour {
 			if(Physics.Raycast(shootingRay, out hit, 100)) {
 				Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
 				if(hit.distance < 1) {
-					transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1.015f);
+					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1.015f);
 				}
 				if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
-					transform.position = Vector3.Lerp(transform.position, verticalVector, cameraCorrectionSpeed);
+					transform.position = Vector3.Slerp(transform.position, verticalVector, cameraCorrectionSpeed);
 				}
 				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
-					transform.position = Vector3.LerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
+					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
 				}
 			} 
 

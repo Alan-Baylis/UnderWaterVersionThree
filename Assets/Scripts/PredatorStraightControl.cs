@@ -79,13 +79,35 @@ public class PredatorStraightControl : MonoBehaviour {
 */	}
 
 	IEnumerator Attack(){
+		Vector3 loomingPos = Vector3.Lerp(transform.position, player.transform.position, 0.6f);
+		Vector3 startPosition = transform.position;
+		loomingPos.y += 1.2f;
+		for(float t = 0; t < 1; t += Time.deltaTime) {
+			transform.LookAt(player.transform);
+			transform.position = Vector3.Lerp(startPosition, loomingPos, t);
+			yield return null;
+		}
+		loomingPos = player.transform.position + new Vector3(0, 1.2f, 0);
+		for(float t = 0; t < 3; t += Time.deltaTime) {
+			transform.LookAt(player.transform);
+			transform.RotateAround(loomingPos, Vector3.up, 20 * Time.deltaTime);
+			yield return null;
+		}
+		/*while(attacking) {
+			transform.LookAt(player.transform);
+			Vector3 divingVector = player.transform.position - transform.position;
+			for(float t = 0; t < 1; t += Time.deltaTime) {
+				transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
+				yield return null;
+			}
+			yield return new WaitForSeconds(2);
+		}*/
 		// lerp to player
-		Debug.Log("In attack");
 		do {
 			transform.LookAt (player.transform);
 			Debug.Log("Attack!");
 			Vector3 targetPosition = player.transform.position;
-			Vector3 startPosition = transform.position;
+			startPosition = transform.position;
 			//Debug.Log("AttackVector: " + attackVector.ToString());
 			Ray heightRay = new Ray(startPosition, Vector3.down * 10);
 			RaycastHit heightRayHit;
