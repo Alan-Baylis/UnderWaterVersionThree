@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerShellControl : MonoBehaviour {
 	public float speed = 370; 
+	public AnimationCurve speedCurve;
+	public float speedCurveIncrement;
 	public float floatingControl;
 	public float speedDown;
 	public int touchCount;
@@ -20,7 +22,7 @@ public class PlayerShellControl : MonoBehaviour {
 	private JellyMesh jellyMesh;
 	private Color black;
 
-
+	private float speedCurveTime;
 	public bool hasWon = false;
 	public bool hasLost = false;
 	public Color white = Color.white;
@@ -31,6 +33,7 @@ public class PlayerShellControl : MonoBehaviour {
 		forwardVector = transform.forward;
 		black = Color.black;
 		jellyMesh = GetComponent<JellyMesh>();
+		speedCurve.postWrapMode = WrapMode.ClampForever;
 	}
 	
 	// Update is called once per frame
@@ -51,6 +54,15 @@ public class PlayerShellControl : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
+
+			if (moveHorizontal == 0 && moveVertical == 0) {
+				speedCurveTime = 0;
+			} 
+			if (speedCurveTime <= 1) {
+				speedCurveTime += speedCurveIncrement;
+			}
+	
+
 		Vector3 forwardProjection = transform.position + (forwardVector * 2);
 		float hillModifier;
 		if(GroundSinControl.CalculateSinPosition(transform.position) > GroundSinControl.CalculateSinPosition(forwardProjection)){
@@ -61,8 +73,8 @@ public class PlayerShellControl : MonoBehaviour {
 		}
 		forwardVector = Quaternion.AngleAxis(moveHorizontal, Vector3.up) * forwardVector;
 		movement = forwardVector * moveVertical;
-		jellyMesh.AddForce(movement * speed,true);
-
+		float currentSpeed  = speed * speedCurve.Evaluate (speedCurveTime);
+		jellyMesh.AddForce(movement * currentSpeed,true);
 		Camera.main.transform.RotateAround(transform.position, Vector3.up, moveHorizontal);
 	}
 		
