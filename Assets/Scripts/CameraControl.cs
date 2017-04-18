@@ -26,6 +26,8 @@ public class CameraControl : MonoBehaviour {
 	public float cameraCorrectionSpeed;
 
 	private bool begun;
+
+	float arcPoint;
 	
 	// Use this for initialization
 	IEnumerator Start () 
@@ -70,28 +72,36 @@ public class CameraControl : MonoBehaviour {
 	void LateUpdate () 
 	{ 
 		if(begun) {
+
+			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
+			if(Vector3.Distance(transform.position, newPos) > maxDistance){
+				transform.position = Vector3.Slerp(transform.position, newPos, 0.01f);
+			}
+			else if(Vector3.Distance(transform.position, newPos) < minDistance){
+				transform.position = Vector3.SlerpUnclamped(newPos, transform.position, 1.005f);
+			}
 			RaycastHit hit;
 			Ray shootingRay = new Ray(transform.position, Vector3.down);
 			if(Physics.Raycast(shootingRay, out hit, 100)) {
 				Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-				if(hit.distance < 1) {
-					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1.015f);
+				if(GroundSinControl.CalculateSinPosition(transform.position) + 2.4f > transform.position.y) {
+					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1.005f);
 				}
-				if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
+				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
 					transform.position = Vector3.Slerp(transform.position, verticalVector, cameraCorrectionSpeed);
 				}
 				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
 					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
 				}
+			}
+/*			Vector3 anchorPos = RotatePointAroundPivot(player.transform.position, player.transform.position + (Vector3.up * 2f), 90 * Time.deltaTime);
+			if(Vector3.Distance(transform.position, player.transform.position) > 2) {
+				transform.position = Vector3.Slerp(transform.position, anchorPos, 0.01f);
 			} 
-
-			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-			if(Vector3.Distance(transform.position, newPos) > maxDistance){
-				transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
+			else if(Vector3.Distance(transform.position, player.transform.position) > 1f) {
+				transform.position = Vector3.Slerp(anchorPos, transform.position, 0.01f);
 			}
-			else if(Vector3.Distance(transform.position, newPos) < minDistance){
-				transform.position = Vector3.LerpUnclamped(newPos, transform.position, 1.005f);
-			}
+			Debug.Log(Vector3.Distance(transform.position, player.transform.position) );*/
 			Vector3 curRotation = player.transform.rotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 			transform.LookAt(player.transform);
@@ -130,5 +140,15 @@ public class CameraControl : MonoBehaviour {
 			GroundSinControl.amplitudeModifier = Mathf.SmoothStep(startAmplitude, 1, t / lerpTime); 
 			yield return null;
 		}
+	}
+
+	Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float angle) {
+		Vector2 offset = new Vector2(pivot.z, pivot.y);
+		Vector2 offsetPoint = new Vector2(point.z, point.y) - offset;
+		float cosVal = Mathf.Cos(angle * Mathf.Deg2Rad);
+		float sinVal = Mathf.Sin(angle * Mathf.Deg2Rad);
+		Vector2 rotatedPoint = new Vector2(offsetPoint.x * cosVal - offsetPoint.y * sinVal, offsetPoint.x * sinVal + offsetPoint.y * cosVal);
+		rotatedPoint += offset;
+		return new Vector3(point.x, rotatedPoint.y, rotatedPoint.x);
 	}
 }

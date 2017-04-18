@@ -33,4 +33,8 @@ public class GroundSinControl : MonoBehaviour {
 	public static float CalculateSinPosition(Vector3 position) {
 		return Mathf.Sin(Time.time - position.x * 0.2f - position.z * 0.2f);
 	}
+
+	public static float CalculateFutureSinPosition(Vector3 position, float timeOffset) {
+		return Mathf.Sin(Time.time + timeOffset - position.x * 0.2f - position.z * 0.2f);
+	}
 }

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class blackCurtainControl : MonoBehaviour {
 
-	private Color black;
 	private Color trans;
 	private Color currentColor;
 
@@ -18,7 +17,6 @@ public class blackCurtainControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		black = Color.black;
 		trans = new Color (0, 0, 0, 0);
 		curtainImage = gameObject.GetComponent<Image> ();
 		currentColor = curtainImage.color;
@@ -32,7 +30,7 @@ public class blackCurtainControl : MonoBehaviour {
 
 		if (gameEnded && !fading) {
 			if (Input.anyKeyDown) {
-				Application.LoadLevel ("GM-level1");
+				UnityEngine.SceneManagement.SceneManager.LoadScene("GM-level1");
 			}
 		}
 	}

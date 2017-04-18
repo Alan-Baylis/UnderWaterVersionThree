@@ -20,7 +20,6 @@ public class PlayerShellControl : MonoBehaviour {
 
 	private Rigidbody rb;
 	private JellyMesh jellyMesh;
-	private Color black;
 
 	private float speedCurveTime;
 	public bool hasWon = false;
@@ -31,7 +30,6 @@ public class PlayerShellControl : MonoBehaviour {
 	void Start () 
 	{
 		forwardVector = transform.forward;
-		black = Color.black;
 		jellyMesh = GetComponent<JellyMesh>();
 		speedCurve.postWrapMode = WrapMode.ClampForever;
 	}

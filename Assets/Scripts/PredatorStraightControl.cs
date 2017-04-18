@@ -20,12 +20,9 @@ public class PredatorStraightControl : MonoBehaviour {
 	public Material predatorStraightMat;
 
 	private Vector3 heightAdjust;
-	private Vector3 tempPos;
 
 	// Use this for initialization
 	void Start (){
-
-		tempPos = transform.position;
 
 		player = GameObject.Find ("PlayerShell");
 		gameMessager = GameObject.Find ("GameMessager");
@@ -49,7 +46,6 @@ public class PredatorStraightControl : MonoBehaviour {
 		// stop if far enough
 		if (distToPlayer > escapeDist && attacking){
 			attacking = false;
-			tempPos = transform.position;
 		}
 			
 		// idle movement -  float on wave
