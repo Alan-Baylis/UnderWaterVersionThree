@@ -6,7 +6,7 @@ public class GroundSinControl : MonoBehaviour {
 	
 	private Vector3 posOri;
 	Vector3 heightAdjust;
-	public static float amplitudeModifier = 0.3f;
+	public static float amplitudeModifier = 0.1f;
 
 	// Use this for initialization
 	void Start () {
