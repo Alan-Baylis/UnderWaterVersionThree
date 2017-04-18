@@ -80,7 +80,7 @@ public class CameraControl : MonoBehaviour {
 			else if(Vector3.Distance(transform.position, newPos) < minDistance){
 				transform.position = Vector3.SlerpUnclamped(newPos, transform.position, 1.005f);
 			}
-			RaycastHit hit;
+/*			RaycastHit hit;
 			Ray shootingRay = new Ray(transform.position, Vector3.down);
 			if(Physics.Raycast(shootingRay, out hit, 100)) {
 				Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
@@ -96,14 +96,18 @@ public class CameraControl : MonoBehaviour {
 				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
 					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
 				}
-			}
+			}*/
 			Vector3 anchorPos = RotatePointAroundPivot(transform.position, player.transform.position + new Vector3(0, player.transform.position.y + 4, -2), 5 * Time.deltaTime);
-			if(Vector3.Distance(transform.position, player.transform.position) > 2) {
+			if(GroundSinControl.CalculateSinPosition(transform.position) + 2.4f > transform.position.y) {
+					transform.position = Vector3.SlerpUnclamped(anchorPos, transform.position, 0.015f);
+			}
+			else if(Vector3.Distance(transform.position, player.transform.position) > 2) {
 				transform.position = Vector3.Slerp(transform.position, anchorPos, 0.01f);
 			} 
 			else if(Vector3.Distance(transform.position, player.transform.position) > 1f) {
 				transform.position = Vector3.Slerp(anchorPos, transform.position, 0.01f);
 			}
+
 			Vector3 curRotation = player.transform.rotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 			transform.LookAt(player.transform);
