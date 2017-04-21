@@ -26,6 +26,8 @@ public class PlayerShellControl : MonoBehaviour {
 	public bool hasLost = false;
 	public Color white = Color.white;
 
+	public ParticleSystem hitParticle;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -45,6 +47,7 @@ public class PlayerShellControl : MonoBehaviour {
 				GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.black);
 			}
 		}
+
 	}
 
 	void FixedUpdate()
@@ -64,15 +67,16 @@ public class PlayerShellControl : MonoBehaviour {
 		Vector3 forwardProjection = transform.position + (forwardVector * 2);
 		float hillModifier;
 		if(GroundSinControl.CalculateSinPosition(transform.position) > GroundSinControl.CalculateSinPosition(forwardProjection)){
-			hillModifier = 1.5f;
+			hillModifier = 1.1f;
 		}
 		else {
-			hillModifier = 0.95f;
+			hillModifier = 0.85f;
 		}
+
 		forwardVector = Quaternion.AngleAxis(moveHorizontal, Vector3.up) * forwardVector;
 		movement = forwardVector * moveVertical;
 		float currentSpeed  = speed * speedCurve.Evaluate (speedCurveTime);
-		jellyMesh.AddForce(movement * currentSpeed,true);
+		jellyMesh.AddForce(movement * currentSpeed * hillModifier,true); // added hillmodifier to here
 		Camera.main.transform.RotateAround(transform.position, Vector3.up, moveHorizontal);
 	}
 		
@@ -80,26 +84,26 @@ public class PlayerShellControl : MonoBehaviour {
 	{
 		if(collision.Collision.gameObject.tag == "WhiteCube")
 		{
-			Debug.Log ("collison with white cube");
 			hasWon = true;
 			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white);
+			Light cubeLight = GameObject.Find ("WhiteCube").GetComponent<Light> ();
+			cubeLight.range += 0.1f;
 		}
 
 		if(collision.Collision.gameObject.tag == "Predator" || collision.Collision.gameObject.tag == "PredatorStraight")
 		{
+			hitParticle.Play();
 			SubtractLife(1);
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
+			hitParticle.Stop ();
 		}
+
 		if(collision.Collision.gameObject.tag == "HealthUp") {
 			AddLife(1);
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 		}
-//		if (collision.Collision.gameObject.tag == "GroundCube") {
-//			cubePlayerIsOn = collision.Collision.gameObject;
-//		
-//		}
 	}
 
 	public void AddLife(int amount) {
@@ -111,6 +115,7 @@ public class PlayerShellControl : MonoBehaviour {
 		health -= amount;
 		Debug.Log("Lost " + amount.ToString() + " life");
 		Debug.Log("Life Amount " + health.ToString());
+
 		if(health <= 0 && hasWon == false) {
 			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red);
 		}

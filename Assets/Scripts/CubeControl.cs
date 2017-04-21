@@ -41,6 +41,6 @@ public class CubeControl : MonoBehaviour {
 //		);
 
 		transform.Rotate (new Vector3 (45, 15, 30) * Time.deltaTime);
-		transform.position = posOri + heightAdjust + new Vector3(0,2.2f,0);
+		transform.position = posOri + heightAdjust;// + new Vector3(0,2.2f,0);
 	}
 }

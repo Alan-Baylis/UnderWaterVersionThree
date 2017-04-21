@@ -21,6 +21,10 @@ public class PredatorStraightControl : MonoBehaviour {
 
 	private Vector3 heightAdjust;
 
+	public ParticleSystem attackParticle;
+	public ParticleSystem waterParticle;
+
+
 	// Use this for initialization
 	void Start (){
 
@@ -41,11 +45,14 @@ public class PredatorStraightControl : MonoBehaviour {
 		if (distToPlayer < attackDist && !attacking){
 			StartCoroutine(Attack());
 			attacking = true;
+			attackParticle.Play ();
 	     }
 
 		// stop if far enough
 		if (distToPlayer > escapeDist && attacking){
 			attacking = false;
+			attackParticle.Stop ();
+
 		}
 			
 		// idle movement -  float on wave
@@ -169,6 +176,19 @@ public class PredatorStraightControl : MonoBehaviour {
 //				);
 		
 		GameObject.Destroy (other.gameObject);
+
+		}
+
+		if(other.gameObject.tag == "GroundCube")
+		{
+			waterParticle.Play ();		
+		}
+	}
+
+	void OnCollisionExit (Collision other) {
+		if(other.gameObject.tag == "GroundCube")
+		{
+			waterParticle.Stop ();		
 		}
 	}
 }
