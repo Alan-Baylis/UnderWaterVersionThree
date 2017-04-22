@@ -30,6 +30,7 @@ public class blackCurtainControl : MonoBehaviour {
 
 		if (gameEnded && !fading) {
 			if (Input.anyKeyDown) {
+				GroundSinControl.amplitudeModifier = 0.1f;
 				UnityEngine.SceneManagement.SceneManager.LoadScene("GM-level1");
 			}
 		}
