@@ -28,6 +28,8 @@ public class CameraControl : MonoBehaviour {
 	private bool begun;
 
 	float arcPoint;
+
+	public float verticalOffset;
 	
 	// Use this for initialization
 	IEnumerator Start () 
@@ -42,7 +44,8 @@ public class CameraControl : MonoBehaviour {
 		}
 		StartCoroutine (FadeOutText ());
 		StartCoroutine(GameStartAmplitude());
-		begun = true;
+		StartCoroutine(MoveTowardsPlayer());
+//		begun = true;
 //		playerVelocity = new Vector3 (0, 0, 10);
 	}
 
@@ -101,16 +104,21 @@ public class CameraControl : MonoBehaviour {
 			if(GroundSinControl.CalculateSinPosition(transform.position) + 2.4f > transform.position.y) {
 					transform.position = Vector3.SlerpUnclamped(anchorPos, transform.position, 0.015f);
 			}
+			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
+				anchorPos = RotatePointAroundPivot(transform.position, player.transform.position + new Vector3(0, player.transform.position.y + 2, -2), 5 * Time.deltaTime);
+					transform.position = Vector3.Slerp(transform.position, anchorPos, 0.02f);
+			}
 			else if(Vector3.Distance(transform.position, player.transform.position) > 2) {
 				transform.position = Vector3.Slerp(transform.position, anchorPos, 0.01f);
 			} 
-			else if(Vector3.Distance(transform.position, player.transform.position) > 1f) {
+			else if(Vector3.Distance(transform.position, player.transform.position) < 1f || player.transform.position.y + verticalOffset > transform.position.y) {
 				transform.position = Vector3.Slerp(anchorPos, transform.position, 0.01f);
 			}
 
 			Vector3 curRotation = player.transform.rotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 			transform.LookAt(player.transform);
+			Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
 		}
 		//transform.position = player.transform.position + offset;
 ////
@@ -146,6 +154,18 @@ public class CameraControl : MonoBehaviour {
 			GroundSinControl.amplitudeModifier = Mathf.SmoothStep(startAmplitude, 1, t / lerpTime); 
 			yield return null;
 		}
+	}
+
+	IEnumerator MoveTowardsPlayer() {
+
+		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y + 2.5f, player.transform.position.z);
+		for(float t = 0; Vector3.Distance(player.transform.position, transform.position) > 4; t+= Time.deltaTime) {
+			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
+			transform.LookAt(player.transform);
+			yield return null;
+		}
+		Debug.Log("begun");
+		begun = true;
 	}
 
 	Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, float angle) {
