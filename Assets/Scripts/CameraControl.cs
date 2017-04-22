@@ -30,6 +30,7 @@ public class CameraControl : MonoBehaviour {
 	float arcPoint;
 
 	public float verticalOffset;
+	public float lookVerticalOffset;
 	
 	// Use this for initialization
 	IEnumerator Start () 
@@ -117,7 +118,7 @@ public class CameraControl : MonoBehaviour {
 
 			Vector3 curRotation = player.transform.rotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
-			transform.LookAt(player.transform);
+			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + lookVerticalOffset, player.transform.position.z));
 			Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
 		}
 		//transform.position = player.transform.position + offset;
@@ -158,10 +159,14 @@ public class CameraControl : MonoBehaviour {
 
 	IEnumerator MoveTowardsPlayer() {
 
+		float introLookVerticalOffset = 0;
 		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y + 2.5f, player.transform.position.z);
 		for(float t = 0; Vector3.Distance(player.transform.position, transform.position) > 4; t+= Time.deltaTime) {
 			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
-			transform.LookAt(player.transform);
+			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + introLookVerticalOffset, player.transform.position.z));
+			if(introLookVerticalOffset < lookVerticalOffset) {
+				introLookVerticalOffset += Time.deltaTime;
+			}
 			yield return null;
 		}
 		Debug.Log("begun");
