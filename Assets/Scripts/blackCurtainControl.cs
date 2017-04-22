@@ -17,11 +17,11 @@ public class blackCurtainControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		trans = new Color (0, 0, 0, 0);
+		trans = Color.clear;
 		curtainImage = gameObject.GetComponent<Image> ();
 		currentColor = curtainImage.color;
 		endText.GetComponent<Text> ().color = trans;
-		StartCoroutine (FadeToColor (trans, 2));
+		//StartCoroutine (FadeToColor (trans, 2));
 	}
 	
 	// Update is called once per frame

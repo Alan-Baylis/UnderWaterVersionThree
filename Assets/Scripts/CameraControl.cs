@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour {
 
 	Image titleText;
 	Text instructionText;
+	Text startText;
 	public GameObject player;
 
 	private Vector3 offset;
@@ -35,15 +36,34 @@ public class CameraControl : MonoBehaviour {
 	// Use this for initialization
 	IEnumerator Start () 
 	{
+		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+		instructionText = GameObject.Find("introText").GetComponent<Text>();
 		titleText = GameObject.Find ("TitleImage").GetComponent<Image> ();
-		instructionText = GameObject.Find ("startText").GetComponent<Text> ();
+		startText = GameObject.Find ("startText").GetComponent<Text> ();
+		startText.enabled = false;
+		// Fade in player
+		yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1));
+		// Player visible
+		yield return new WaitForSeconds(1);
+		// Fade out screen
+		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1));
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+		// Fade in Everything
+		StartCoroutine(blackCurtain.FadeToColor(Color.clear, 3));
+		StartCoroutine(FadeInTitleElements());
+		for(float t = 0; t < 1; t += Time.deltaTime) {
+			instructionText.color = Color.Lerp(Color.white, Color.clear, t);
+			yield return null;
+		}
+		startText.enabled = true;
 		begun = false;
 		player = GameObject.Find ("PlayerShell");
 		offset = transform.position - player.transform.position;
 		while(!Input.anyKey) {
 			yield return null;
 		}
-		StartCoroutine (FadeOutText ());
+		StartCoroutine (FadeOutTitleElements ());
 		StartCoroutine(GameStartAmplitude());
 		StartCoroutine(MoveTowardsPlayer());
 //		begun = true;
@@ -129,7 +149,7 @@ public class CameraControl : MonoBehaviour {
 //		transform.LookAt (player.transform);
 	}
 
-	IEnumerator FadeOutText() {
+	IEnumerator FadeOutTitleElements() {
 		Color startColorTitle = titleText.color;
 		Color endColorTitle = startColorTitle;
 		endColorTitle.a = 0;
@@ -146,6 +166,22 @@ public class CameraControl : MonoBehaviour {
 
 		Destroy (titleText.gameObject);
 		Destroy (instructionText.gameObject);
+	}
+
+	IEnumerator FadeInTitleElements() {
+		Color startColorTitle = titleText.color;
+		Color endColorTitle = startColorTitle;
+		endColorTitle.a = 0.5f;
+
+/*		Color startColorInstruction = instructionText.color;
+		Color endColorInstruction = startColorInstruction;
+		endColorInstruction.a = 0;
+*/
+		for (float t = 0; t <= 1; t += 0.5f*Time.deltaTime) {
+			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
+//			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
+			yield return null;
+		}
 	}
 
 	IEnumerator GameStartAmplitude() {
