@@ -20,6 +20,7 @@ public class PredatorStraightControl : MonoBehaviour {
 	public Material predatorStraightMat;
 
 	private Vector3 heightAdjust;
+	private float verticalAttackOffset;
 
 	public ParticleSystem attackParticle;
 	public ParticleSystem waterParticle;
@@ -34,6 +35,8 @@ public class PredatorStraightControl : MonoBehaviour {
 
 		float scale = Random.Range (0.8f, 1.2f);
 		transform.localScale = new Vector3(scale,scale,scale);
+		verticalAttackOffset = Resources.Load<GameObject>("GroundSinWave0.2Blue0").GetComponent<MeshFilter>().sharedMesh.bounds.size.y / 2;
+		verticalAttackOffset += player.GetComponent<MeshFilter>().mesh.bounds.size.y;
 	}
 	
 	// Update is called once per frame
@@ -100,7 +103,7 @@ public class PredatorStraightControl : MonoBehaviour {
 		}
 			transform.LookAt(player.transform);
 			Vector3 divingVector = player.transform.position;
-			divingVector.y = Mathf.Sin(Time.time + attackTime - player.transform.position.x * 0.2f - player.transform.position.z * 0.2f);
+			divingVector.y = Mathf.Sin(Time.time + attackTime - Mathf.Floor(player.transform.position.x) * 0.2f - Mathf.Floor(player.transform.position.z) * 0.2f) + verticalAttackOffset;
 			Vector3 startPos = transform.position;
 			for(float t = 0; t < attackTime; t += Time.deltaTime) {
 				transform.LookAt(divingVector);
