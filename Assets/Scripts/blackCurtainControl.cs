@@ -52,7 +52,18 @@ public class blackCurtainControl : MonoBehaviour {
 	public void EndGame(Color deathColor) {
 		if(!fading && !gameEnded)
 		StartCoroutine (FadeToColor (deathColor, 2));
-		endText.GetComponent<Text> ().color = Color.gray;
+		StartCoroutine (FadeTextToColor(Color.gray, 1, 2));
+		//endText.GetComponent<Text> ().color = Color.gray;
 		gameEnded = true;
+	}
+
+	IEnumerator FadeTextToColor(Color newColor, float duration, float delay) {
+		yield return new WaitForSeconds(delay);
+		Text text = endText.GetComponent<Text>();
+		Color start = text.color;
+		for(float t = 0; t < duration; t += Time.deltaTime) {
+			text.color = Color.Lerp(start, newColor, t / duration);
+			yield return null;
+		}
 	}
 }

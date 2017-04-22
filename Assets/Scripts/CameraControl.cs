@@ -165,7 +165,7 @@ public class CameraControl : MonoBehaviour {
 		}
 
 		Destroy (titleText.gameObject);
-		Destroy (instructionText.gameObject);
+		Destroy (startText.gameObject);
 	}
 
 	IEnumerator FadeInTitleElements() {
