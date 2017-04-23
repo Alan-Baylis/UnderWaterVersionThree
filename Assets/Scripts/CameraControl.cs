@@ -126,7 +126,7 @@ public class CameraControl : MonoBehaviour {
 					transform.position = Vector3.SlerpUnclamped(anchorPos, transform.position, 0.015f);
 			}
 			else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
-				anchorPos = RotatePointAroundPivot(transform.position, player.transform.position + new Vector3(0, player.transform.position.y + 2, -2), 5 * Time.deltaTime);
+				anchorPos = RotatePointAroundPivot(transform.position, player.transform.position + new Vector3(0, player.transform.position.y, -2), 5 * Time.deltaTime);
 					transform.position = Vector3.Slerp(transform.position, anchorPos, 0.02f);
 			}
 			else if(Vector3.Distance(transform.position, player.transform.position) > 2) {
@@ -151,16 +151,12 @@ public class CameraControl : MonoBehaviour {
 
 	IEnumerator FadeOutTitleElements() {
 		Color startColorTitle = titleText.color;
-		Color endColorTitle = startColorTitle;
-		endColorTitle.a = 0;
 
 		Color startColorInstruction = instructionText.color;
-		Color endColorInstruction = startColorInstruction;
-		endColorInstruction.a = 0;
 
 		for (float t = 0; t <= 1; t += 0.5f*Time.deltaTime) {
-			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
-			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
+			titleText.color = Color.Lerp (startColorTitle, Color.clear, t);
+			instructionText.color = Color.Lerp (startColorInstruction, Color.clear, t);
 			yield return null;
 		}
 

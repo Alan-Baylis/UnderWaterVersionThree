@@ -44,7 +44,7 @@ public class PlayerShellControl : MonoBehaviour {
 		{
 			if (hasWon != true)
 			{
-				GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.black);
+				StartCoroutine(GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().DelayedEndGame(Color.black, "", 2));
 			}
 		}
 
@@ -85,7 +85,7 @@ public class PlayerShellControl : MonoBehaviour {
 		if(collision.Collision.gameObject.tag == "WhiteCube")
 		{
 			hasWon = true;
-			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white);
+			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white, "This is based on a nightmare I had as a little girl\nIt was really scary\n thank you for playing");
 			Light cubeLight = GameObject.Find ("WhiteCube").GetComponent<Light> ();
 			cubeLight.range += 0.1f;
 		}
@@ -117,7 +117,7 @@ public class PlayerShellControl : MonoBehaviour {
 		Debug.Log("Life Amount " + health.ToString());
 
 		if(health <= 0 && hasWon == false) {
-			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red);
+			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red, "");
 		}
 	} 
 }

@@ -14,6 +14,7 @@ public class blackCurtainControl : MonoBehaviour {
 	private bool fading = false;
 
 	public Text endText;
+	public Text paragraphText;
 
 	// Use this for initialization
 	void Start () {
@@ -49,21 +50,27 @@ public class blackCurtainControl : MonoBehaviour {
 		fading = false;
 	}
 
-	public void EndGame(Color deathColor) {
+	public void EndGame(Color deathColor, string textContent) {
 		if(!fading && !gameEnded)
 		StartCoroutine (FadeToColor (deathColor, 2));
-		StartCoroutine (FadeTextToColor(Color.gray, 1, 2));
-		//endText.GetComponent<Text> ().color = Color.gray;
+		paragraphText.rectTransform.localPosition = new Vector3(0, 200, 0);
+		StartCoroutine (FadeTextToColor(Color.gray, 1, 4));
+		paragraphText.text = textContent;
 		gameEnded = true;
 	}
 
 	IEnumerator FadeTextToColor(Color newColor, float duration, float delay) {
 		yield return new WaitForSeconds(delay);
-		Text text = endText.GetComponent<Text>();
-		Color start = text.color;
+		Color start = endText.color;
 		for(float t = 0; t < duration; t += Time.deltaTime) {
-			text.color = Color.Lerp(start, newColor, t / duration);
+			endText.color = Color.Lerp(start, newColor, t / duration);
+			paragraphText.color = Color.Lerp(start, newColor, t / duration);
 			yield return null;
 		}
+	}
+
+	public IEnumerator DelayedEndGame(Color deathColor, string textContent, float delay) {
+		yield return new WaitForSeconds(delay);
+		EndGame(deathColor, textContent);
 	}
 }
