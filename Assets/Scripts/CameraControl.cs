@@ -43,9 +43,9 @@ public class CameraControl : MonoBehaviour {
 		startText = GameObject.Find ("startText").GetComponent<Text> ();
 		startText.enabled = false;
 		// Fade in player
-		yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1));
+		 yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1));
 		// Player visible
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(2);
 		// Fade out screen
 		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1));
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
