@@ -34,6 +34,7 @@ public class CameraControl : MonoBehaviour {
 	public float lookVerticalOffset;
 	
 	// Use this for initialization
+
 	IEnumerator Start () 
 	{
 		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
@@ -43,19 +44,22 @@ public class CameraControl : MonoBehaviour {
 		startText = GameObject.Find ("startText").GetComponent<Text> ();
 		startText.enabled = false;
 		// Fade in player
-		 yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1));
+	    yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1)); // should be active
 		// Player visible
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(3);
 		// Fade out screen
-		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1));
+		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1)); 
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
 		// Fade in Everything
 		StartCoroutine(blackCurtain.FadeToColor(Color.clear, 3));
 		StartCoroutine(FadeInTitleElements());
-		for(float t = 0; t < 1; t += Time.deltaTime) {
-			instructionText.color = Color.Lerp(Color.white, Color.clear, t);
+
+		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+			instructionText.color = Color.Lerp(Color.white, Color.clear, t); // should be from white
 			yield return null;
 		}
+
+		StartCoroutine(FadeInTitleElements()); // should be out
 		startText.enabled = true;
 		begun = false;
 		player = GameObject.Find ("PlayerShell");
@@ -69,6 +73,84 @@ public class CameraControl : MonoBehaviour {
 //		begun = true;
 //		playerVelocity = new Vector3 (0, 0, 10);
 	}
+
+//	// record version back up
+//	IEnumerator Start () 
+//	{
+//		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
+//		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+//		instructionText = GameObject.Find("introText").GetComponent<Text>();
+//		titleText = GameObject.Find ("TitleImage").GetComponent<Image> ();
+//		startText = GameObject.Find ("startText").GetComponent<Text> ();
+//		startText.enabled = false;
+//		// Fade in player
+//		//yield return StartCoroutine(blackCurtain.FadeToColor(Color.clear, 1)); // should be active
+//		// Player visible
+//		yield return new WaitForSeconds(3);
+//		// Fade out screen
+//		//yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1)); 
+//		//Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+//		// Fade in Everything
+//		//StartCoroutine(blackCurtain.FadeToColor(Color.clear, 3));
+//		//StartCoroutine(FadeInTitleElements());
+//
+//		// extra fade in
+//		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+//			instructionText.color = Color.Lerp(Color.clear, Color.white, t); 
+//			yield return null;
+//		}
+//
+//		// extra stop time
+//		for(float t = 0; t < 1; t += 0.25f*Time.deltaTime) {
+//			yield return null;
+//		}
+//
+//		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+//			instructionText.color = Color.Lerp(Color.white, Color.clear, t); // should be from white
+//			yield return null;
+//		}
+//		// extra stop time
+//		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+//			yield return null;
+//		}
+//
+//		// extra line
+//		// extra fade in
+//		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+//			instructionText.text = ("Welcome to my nightmare.");
+//			instructionText.color = Color.Lerp(Color.clear, Color.white, t); 
+//			yield return null;
+//		}
+//
+//		// extra stop time
+//		for(float t = 0; t < 1; t += 0.25f*Time.deltaTime) {
+//			yield return null;
+//		}
+//
+//		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
+//			instructionText.text = ("Welcome to my nightmare.");
+//			instructionText.color = Color.Lerp(Color.white, Color.clear, t); // should be from white
+//			yield return null;
+//		}
+//		// extra stop time
+//		for(float t = 0; t < 1; t += 0.25f*Time.deltaTime) {
+//			yield return null;
+//		}
+//
+//		StartCoroutine(FadeInTitleElements()); // should be out
+//		startText.enabled = true;
+//		begun = false;
+//		player = GameObject.Find ("PlayerShell");
+//		offset = transform.position - player.transform.position;
+//		while(!Input.anyKey) {
+//			yield return null;
+//		}
+//		StartCoroutine (FadeOutTitleElements ());
+//		StartCoroutine(GameStartAmplitude());
+//		StartCoroutine(MoveTowardsPlayer());
+//		//		begun = true;
+//		//		playerVelocity = new Vector3 (0, 0, 10);
+//	}
 
 //  // make camera rotate with player when they turn
 //	void FixedUpdate(){
@@ -173,7 +255,7 @@ public class CameraControl : MonoBehaviour {
 		Color endColorInstruction = startColorInstruction;
 		endColorInstruction.a = 0;
 */
-		for (float t = 0; t <= 1; t += 0.5f*Time.deltaTime) {
+		for (float t = 0; t <= 1; t += 0.2f*Time.deltaTime) {
 			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
 //			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
 			yield return null;
