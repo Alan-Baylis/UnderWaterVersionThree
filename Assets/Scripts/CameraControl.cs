@@ -39,6 +39,7 @@ public class CameraControl : MonoBehaviour {
 	{
 		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Eel");
 		instructionText = GameObject.Find("introText").GetComponent<Text>();
 		titleText = GameObject.Find ("TitleImage").GetComponent<Image> ();
 		startText = GameObject.Find ("startText").GetComponent<Text> ();
@@ -50,6 +51,8 @@ public class CameraControl : MonoBehaviour {
 		// Fade out screen
 		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1)); 
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Eel");
+
 		// Fade in Everything
 		StartCoroutine(blackCurtain.FadeToColor(Color.clear, 3));
 		StartCoroutine(FadeInTitleElements());
@@ -124,14 +127,8 @@ public class CameraControl : MonoBehaviour {
 			Vector3 curRotation = player.transform.rotation.eulerAngles;
 			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + lookVerticalOffset, player.transform.position.z));
-			Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
+			//Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
 		}
-		//transform.position = player.transform.position + offset;
-////
-  // camera rotating part 2, commend out the "+ offset" line and use below
-//			+ (playerVelocity.normalized * -1f) + new Vector3(0,0.1f,0); 
-			//move the camera behind the player
-//		transform.LookAt (player.transform);
 	}
 
 	IEnumerator FadeOutTitleElements() {

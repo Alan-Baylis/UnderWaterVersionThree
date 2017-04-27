@@ -49,6 +49,15 @@ public class PredatorStraightControl : MonoBehaviour {
 			StartCoroutine(Attack());
 			attacking = true;
 			attackParticle.Play ();
+
+//			// check if hit a gardenEel
+//			Ray stopRay = new Ray(transform.position, Vector3.forward * 1);
+//			RaycastHit stopRayhit;
+//			if (Physics.Raycast (stopRay, out stopRayhit, 10f)) {
+//				if (stopRayhit.collider.gameObject.tag == "Eel"){
+//					
+//				}
+//			}	
 	     }
 
 		// stop if far enough
@@ -72,18 +81,7 @@ public class PredatorStraightControl : MonoBehaviour {
 		if(Vector3.Distance(transform.position, temp) > 0.3f) {
 			transform.position = Vector3.Lerp(transform.position, temp, 0.1f);
 		}
-/*		Ray floatRay = new Ray(transform.position, Vector3.down * 10);
-		RaycastHit floatRayhit;
-		if (Physics.Raycast (floatRay, out floatRayhit, 10f)) {
-			// get the game object's y, change itself to make itself float
-			if (floatRayhit.collider.gameObject.tag == "GroundCube"){
-			Vector3 groundCubePos;
-			Vector3 temp = transform.position;
-			groundCubePos = floatRayhit.collider.gameObject.transform.position;
-			transform.position = Vector3.Lerp (temp,new Vector3 (temp.x, groundCubePos.y + 2.2f, temp.z),0.1f);
-			}
-		}	
-*/	}
+}
 
 	IEnumerator Attack(){
 		Vector3 loomingPos = Vector3.Lerp(transform.position, player.transform.position, 0.6f);
@@ -152,8 +150,6 @@ public class PredatorStraightControl : MonoBehaviour {
 			//transform.position = Vector3.Lerp (temp, player.transform.position, 0.1f);
 			yield return new WaitForSeconds(2);
 		} while(attacking);*/
-
-		Debug.Log("Not attacking anymore");
 	}	
 
 // //shake camera
@@ -192,6 +188,15 @@ public class PredatorStraightControl : MonoBehaviour {
 		if(other.gameObject.tag == "GroundCube")
 		{
 			waterParticle.Stop ();		
+		}
+	}
+
+	void OnTriggerEnter (Collider other){
+
+		if(other.gameObject.tag == "Eel")
+		{
+			attacking = false;
+			attackParticle.Stop ();
 		}
 	}
 }
