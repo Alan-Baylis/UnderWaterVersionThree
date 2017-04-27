@@ -133,7 +133,7 @@ public class GridManager : MonoBehaviour {
 	GameObject ParseBlockType(char type) {
 		switch(type) {
 		case 'b':
-			return Resources.Load<GameObject> ("Ground-plain");
+			return Resources.Load<GameObject> ("ShellFish");
 		case 'c':
 			return Resources.Load<GameObject> ("coralv");
 		case 'd':

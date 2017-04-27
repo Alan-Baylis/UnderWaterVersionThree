@@ -106,6 +106,18 @@ public class PlayerShellControl : MonoBehaviour {
 		}
 	}
 
+//	void OnJellyTriggerEnter(JellyMesh.JellyCollision collision){
+//		if(collision.Collision.gameObject.tag == "ShellFish"){
+//			collision.Collision.gameObject.GetComponent<ShellFishControl> ().ShellFall ();
+//		}
+//	}
+
+//	void OnJellyTriggerExit(JellyMesh.JellyCollision collision){
+//		if(collision.Collision.gameObject.tag == "ShellFish"){
+//			collision.Collision.gameObject.GetComponent<ShellFishControl> ().ShellRaise ();
+//		}
+//	}
+
 	public void AddLife(int amount) {
 		health += amount;
 		Debug.Log("Gained " + amount.ToString() + " life");
