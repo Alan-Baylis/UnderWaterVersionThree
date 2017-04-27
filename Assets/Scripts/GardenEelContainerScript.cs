@@ -19,4 +19,10 @@ public class GardenEelContainerScript : MonoBehaviour {
 			gameObject.GetComponentInChildren<EelControl> ().EelRaise ();
 		}
 	}
+
+//	void OnCollisionExit(Collision other){
+//		if (other.gameObject.tag == "Player"){
+//			gameObject.GetComponentInChildren<EelControl> ().EelDown ();
+//		}
+//	}
 }

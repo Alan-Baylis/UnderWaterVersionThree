@@ -14,16 +14,31 @@ public class EelControl : MonoBehaviour {
 	}
 
 	public void EelRaise(){
-		Debug.Log ("Eellllllll");
 		StartCoroutine (EelDance ());
+	}
+
+	public void EelDown(){
+		StartCoroutine (EelFall ());
 	}
 
 	IEnumerator EelDance() {
 		for (float t = 0; t <= 1; t += 0.1f*Time.deltaTime) {
 			transform.position = Vector3.Lerp(transform.position, 
 				new Vector3(transform.position.x, 
-					(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 3f),
-					transform.position.z), t);
+					(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 2f),
+					transform.position.z), 0.0001f*t);
+
+			yield return null;
+		}
+	}
+
+	IEnumerator EelFall() {
+		for (float t = 0; t <= 1; t += 0.1f*Time.deltaTime) {
+			transform.position = Vector3.Lerp(transform.position, 
+				new Vector3(transform.position.x, 
+					Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f),
+					transform.position.z), 0.05f*t);
+
 			yield return null;
 		}
 	}
