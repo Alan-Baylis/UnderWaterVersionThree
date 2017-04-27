@@ -94,7 +94,7 @@ public class PlayerShellControl : MonoBehaviour {
 		{
 			hitParticle.Play();
 			SubtractLife(1);
-			Destroy(collision.Collision.gameObject);
+			//Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 			hitParticle.Stop ();
 		}
@@ -104,19 +104,17 @@ public class PlayerShellControl : MonoBehaviour {
 			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 		}
+
+		if (collision.Collision.gameObject.tag == "ShellFish") {
+			collision.Collision.gameObject.GetComponentInChildren<ShellFishControl> ().ShellAction ();
+			Debug.Log ("Calling Shell!");
+		}
+
+		if (collision.Collision.gameObject.tag == "ShellFishShell"){
+			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red, "");
+			Destroy (gameObject);
+		}
 	}
-
-//	void OnJellyTriggerEnter(JellyMesh.JellyCollision collision){
-//		if(collision.Collision.gameObject.tag == "ShellFish"){
-//			collision.Collision.gameObject.GetComponent<ShellFishControl> ().ShellFall ();
-//		}
-//	}
-
-//	void OnJellyTriggerExit(JellyMesh.JellyCollision collision){
-//		if(collision.Collision.gameObject.tag == "ShellFish"){
-//			collision.Collision.gameObject.GetComponent<ShellFishControl> ().ShellRaise ();
-//		}
-//	}
 
 	public void AddLife(int amount) {
 		health += amount;

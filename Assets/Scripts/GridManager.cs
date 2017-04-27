@@ -140,8 +140,8 @@ public class GridManager : MonoBehaviour {
 			return Resources.Load<GameObject> ("GroundTallPlantBlue0");
 		case 'e':
 			return Resources.Load<GameObject> ("Sardin");
-		case 'p':
-			return Resources.Load<GameObject> ("GroundPlayerOn");
+		case 'g':
+			return Resources.Load<GameObject> ("GardenEelContainer");
 		case 'r':
 			return Resources.Load<GameObject> ("GroundRotatingCube");
 		case 's':

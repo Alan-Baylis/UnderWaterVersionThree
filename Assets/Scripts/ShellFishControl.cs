@@ -5,22 +5,17 @@ using UnityEngine;
 public class ShellFishControl : MonoBehaviour {
 
 	private Rigidbody rb;
-	private Vector3 posOri;
 	private bool hasFallen = false;
-	private bool hasRaise = true;
+	private bool hasRisen = true;
 	private float timer = 0;
 
 	// Use this for initialization
 	void Start () {
 		rb = gameObject.GetComponent<Rigidbody> ();
-		//posOri = transform.position;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.F) && hasRaise == true) {
-			StartCoroutine (ShellFallWait ());
-		}
 
 		if (hasFallen == true) {
 			timer += Time.deltaTime;
@@ -33,26 +28,38 @@ public class ShellFishControl : MonoBehaviour {
 		}
 	}
 
-//	void OnTriggerEnter(Collider other){
-//		if (other.gameObject.tag == "Predator"){
-//			StartCoroutine (ShellFallWait ());
-//		}
-//	}
+	void OnTriggerEnter(Collider other){
+		if (other.gameObject.tag == "Predator" && hasRisen == true){
+			ShellAction ();
+		}
+	}
+
+	void OnCollisionEnter(Collision other){
+		if (other.gameObject.tag == "Predator" && hasFallen == true){
+			Destroy(other.gameObject);
+		}
+	}
+
+	public void ShellAction(){
+		StartCoroutine (ShellFallWait ());
+	}
 
 	IEnumerator ShellRaise() {
-		Vector3 posTemp = gameObject.GetComponentInParent<Transform>().position + new Vector3(0,2,0);
+		
 		for (float t = 0; t <= 1; t += 0.1f*Time.deltaTime) {
 			rb.useGravity = false;
 			transform.position = Vector3.Lerp(transform.position, 
-				/*(gameObject.GetComponentInParent<Transform>().position + new Vector3(0,2,0))*/ posTemp, t);
-			hasRaise = true;
+				new Vector3(transform.position.x, 
+					(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 3f),
+					transform.position.z), t);
+			hasRisen = true;
 			yield return null;
 		}
 	}
 
 	IEnumerator ShellFallWait() {
 		for (float t = 0; t <= 1; t += 0.2f*Time.deltaTime) {
-			if (t >= 0.1f) {
+			if (t >= 0.3f) {
 				rb.useGravity = true;
 				hasFallen = true;
 			}
