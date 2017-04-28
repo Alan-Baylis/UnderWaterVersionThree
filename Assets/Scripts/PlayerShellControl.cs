@@ -86,7 +86,7 @@ public class PlayerShellControl : MonoBehaviour {
 		if(collision.Collision.gameObject.tag == "WhiteCube")
 		{
 			hasWon = true;
-			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white, "This is based on a nightmare I had as a little girl\nIt was really scary\n thank you for playing");
+			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.white, "This game is based on one of my childhood nightmare\n\nI wished to share this experience with you\n\n Thank you for entering the UnterWater");
 			Light cubeLight = GameObject.Find ("WhiteCube").GetComponent<Light> ();
 			cubeLight.range += 0.1f;
 		}

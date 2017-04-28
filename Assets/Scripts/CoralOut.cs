@@ -16,7 +16,7 @@ public class CoralOut : MonoBehaviour {
 	void Update () {
 		heightAdjust = new Vector3 (
 			0.0f, 
-			Mathf.Sin (Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f), 
+			GroundSinControl.CalculateSinPosition(transform.position),
 			0.0f);
 
 		transform.position = position + heightAdjust;
