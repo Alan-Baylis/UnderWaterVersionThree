@@ -50,7 +50,7 @@ public class ShellFishControl : MonoBehaviour {
 			rb.useGravity = false;
 			transform.position = Vector3.Lerp(transform.position, 
 				new Vector3(transform.position.x, 
-					(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 3f),
+					GroundSinControl.CalculateSinPosition(transform.position) + 3,//(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 3f),
 					transform.position.z), t);
 			hasRisen = true;
 			yield return null;

@@ -25,7 +25,7 @@ public class EelControl : MonoBehaviour {
 		for (float t = 0; t <= 1; t += 0.1f*Time.deltaTime) {
 			transform.position = Vector3.Lerp(transform.position, 
 				new Vector3(transform.position.x, 
-					(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 1.5f),
+					(GroundSinControl.CalculateSinPosition(transform.position) + 1.5f),
 					transform.position.z), 0.0005f*t);
 
 			yield return null;

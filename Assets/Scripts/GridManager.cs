@@ -142,8 +142,6 @@ public class GridManager : MonoBehaviour {
 			return Resources.Load<GameObject> ("Sardin");
 		case 'g':
 			return Resources.Load<GameObject> ("GardenEelContainer");
-		case 'r':
-			return Resources.Load<GameObject> ("GroundRotatingCube");
 		case 's':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue0");
 		case 't':
@@ -152,6 +150,8 @@ public class GridManager : MonoBehaviour {
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue2");
 		case 'v':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue3");
+		case 'z':
+			return Resources.Load<GameObject> ("StargazerContainer");
 
 		default:
 			return null;//Resources.Load<GameObject>("Empty"); // make an empty object prefab as default

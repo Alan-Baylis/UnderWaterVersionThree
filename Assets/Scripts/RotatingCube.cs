@@ -3,29 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RotatingCube : MonoBehaviour {
-	Vector3 posOri;
 	Vector3 posTemp;
+	private Vector3 posOri;
+	Vector3 heightAdjust;
+	public AnimationCurve rotationCurve;
+
 	// Use this for initialization
 	void Start () {
 		posOri = transform.position;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		RotateAround();
+		//rotationCurve.postWrapMode = WrapMode.ClampForever;
+		//rotationCurve.postWrapMode = WrapMode.Loop;
 	}
 
-	void RotateAround(){
-		//		transform.RotateAround(
-		//			/*Vector3.zero*/ posOri, 
-		//			/*Vector3.up*/ /*new Vector3 (0.0f, (transform.position.x+transform.position.y-transform.position.z),0.0f)*/
-		//			Vector3.one, 
-		//			20 * Time.deltaTime * (Mathf.Sin(Time.time/*+posOri.x*/)+posOri.x));
+	// Update is called once per frame
+	void Update () {
+
+		heightAdjust = new Vector3 (
+			0.0f,
+			GroundSinControl.CalculateSinPosition(transform.position), 
+			0.0f);
 
 		transform.RotateAround(
 			posOri, 
-			//Vector3.one, 
 			Vector3.forward,
-			20 * Time.deltaTime * ((Mathf.Sin(Time.time+transform.position.x-posOri.x)+1)));
+			0.25f * Mathf.PI);
+//			rotationCurve.Evaluate (Time.time));
+
+		transform.position = posOri + heightAdjust;
 	}
 }
