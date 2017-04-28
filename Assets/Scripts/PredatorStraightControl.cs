@@ -115,6 +115,7 @@ public class PredatorStraightControl : MonoBehaviour {
 				//transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
 				yield return null;
 			}
+			gameObject.tag = "PredatorStraight";
 			yield return new WaitForSeconds(2);
 		}
 		/*// lerp to player

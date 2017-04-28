@@ -13,6 +13,7 @@ public class PlayerShellControl : MonoBehaviour {
 	public int touchCount;
 	public float shakeTimer;
 	public int health = 6;
+	public float hitBouncePower = 600;
 	public Vector3 movement;
 	public GameObject player;
 	public GameObject cubePlayerIsOn;
@@ -92,6 +93,8 @@ public class PlayerShellControl : MonoBehaviour {
 
 		if(collision.Collision.gameObject.tag == "Predator" || collision.Collision.gameObject.tag == "PredatorStraight")
 		{
+			Debug.Log(collision.Collision.transform.position - transform.position);
+			StartCoroutine(HitBounce(collision.Collision.transform.position - transform.position));
 			hitParticle.Play();
 			SubtractLife(1);
 			//Destroy(collision.Collision.gameObject);
@@ -130,4 +133,11 @@ public class PlayerShellControl : MonoBehaviour {
 			GameObject.Find ("blackCurtain").GetComponent<blackCurtainControl>().EndGame(Color.red, "");
 		}
 	} 
+
+	IEnumerator HitBounce(Vector3 forceVector) {
+		for(float t = 0; t < 0.3f; t += Time.deltaTime ) {
+			jellyMesh.AddForce(forceVector * hitBouncePower, false);
+			yield return null;
+		}
+	}
 }
