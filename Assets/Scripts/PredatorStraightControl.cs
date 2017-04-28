@@ -93,9 +93,11 @@ public class PredatorStraightControl : MonoBehaviour {
 			yield return null;
 		}
 		while(attacking) {
-		loomingPos = player.transform.position + new Vector3(0, 1.2f, 0);
 		for(float t = 0; t < 3; t += Time.deltaTime) {
 			transform.LookAt(player.transform);
+			loomingPos = player.transform.position + new Vector3(0, 1.2f, 0);
+			Vector3 temp = new Vector3(transform.position.x, loomingPos.y + GroundSinControl.CalculateSinPosition(transform.position) + verticalAttackOffset, transform.position.z);
+			transform.position = Vector3.Lerp(transform.position, temp, 0.1f);
 			transform.RotateAround(loomingPos, Vector3.up, 20 * Time.deltaTime);
 			yield return null;
 		}
