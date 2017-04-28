@@ -43,6 +43,9 @@ public class CameraControl : MonoBehaviour {
 		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Eel");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Predator");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ShellFish");
+
 		instructionText = GameObject.Find("introText").GetComponent<Text>();
 		titleText = GameObject.Find ("TitleImage").GetComponent<Image> ();
 		startText = GameObject.Find ("startText").GetComponent<Text> ();
@@ -55,6 +58,8 @@ public class CameraControl : MonoBehaviour {
 		yield return StartCoroutine(blackCurtain.FadeToColor(Color.black, 1)); 
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Eel");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Predator");
+		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("ShellFish");
 
 		// Fade in Everything
 		StartCoroutine(blackCurtain.FadeToColor(Color.clear, 3));

@@ -131,6 +131,8 @@ public class GridManager : MonoBehaviour {
 	}
 
 	GameObject ParseBlockType(char type) {
+		// x and y are for calculation 
+		// i means nothing just holding a border mark
 		switch(type) {
 		case 'b':
 			return Resources.Load<GameObject> ("ShellFish");
@@ -144,15 +146,17 @@ public class GridManager : MonoBehaviour {
 			return Resources.Load<GameObject> ("GardenEelContainer");
 		case 's':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue0");
+		case 'z':
+			return Resources.Load<GameObject> ("StargazerContainer");
+
+		// not using dark cubes in testLevel 1
 		case 't':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue1");
 		case 'u':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue2");
 		case 'v':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue3");
-		case 'z':
-			return Resources.Load<GameObject> ("StargazerContainer");
-
+		
 		default:
 			return null;//Resources.Load<GameObject>("Empty"); // make an empty object prefab as default
 		} ;
