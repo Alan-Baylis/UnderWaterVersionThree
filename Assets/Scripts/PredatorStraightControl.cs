@@ -108,12 +108,13 @@ public class PredatorStraightControl : MonoBehaviour {
 			for(float t = 0; t < attackTime; t += Time.deltaTime) {
 				transform.LookAt(divingVector);
 				transform.position = Vector3.Slerp(startPos, divingVector, t / attackTime);
-				//transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
 				yield return null;
 			}
+			divingVector = startPos + new Vector3(divingVector.x - startPos.x, startPos.y, divingVector.z);
+			startPos = transform.position;
 			for(float t = 0; t < attackTime; t += Time.deltaTime) {
 				transform.LookAt(divingVector);
-				transform.position = Vector3.Slerp(divingVector, startPos, t / attackTime);
+				transform.position = Vector3.Slerp(startPos, divingVector, t / attackTime);
 				//transform.Translate(Vector3.Slerp(divingVector, divingVector * -1, t) * Time.deltaTime);
 				yield return null;
 			}
