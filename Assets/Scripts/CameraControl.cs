@@ -32,11 +32,14 @@ public class CameraControl : MonoBehaviour {
 
 	public float verticalOffset;
 	public float lookVerticalOffset;
+	public AnimationCurve approachCurve;
 	
 	// Use this for initialization
 
 	IEnumerator Start () 
 	{
+		player = GameObject.Find ("PlayerShell");
+		transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
 		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Eel");
@@ -59,15 +62,17 @@ public class CameraControl : MonoBehaviour {
 
 		for(float t = 0; t < 1; t += 0.5f*Time.deltaTime) {
 			instructionText.color = Color.Lerp(Color.white, Color.clear, t); // should be from white
+			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
 			yield return null;
 		}
 
 		StartCoroutine(FadeInTitleElements()); // should be out
 		startText.enabled = true;
 		begun = false;
-		player = GameObject.Find ("PlayerShell");
+
 		offset = transform.position - player.transform.position;
 		while(!Input.anyKey) {
+			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
 			yield return null;
 		}
 		StartCoroutine (FadeOutTitleElements ());
@@ -92,23 +97,6 @@ public class CameraControl : MonoBehaviour {
 			else if(Vector3.Distance(transform.position, newPos) < minDistance){
 				transform.position = Vector3.SlerpUnclamped(newPos, transform.position, 1.005f);
 			}
-/*			RaycastHit hit;
-			Ray shootingRay = new Ray(transform.position, Vector3.down);
-			if(Physics.Raycast(shootingRay, out hit, 100)) {
-				Vector3 verticalVector = new Vector3(transform.position.x, hit.point.y, transform.position.z);
-				if(GroundSinControl.CalculateSinPosition(transform.position) + 2.4f > transform.position.y) {
-					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1.015f);
-				}
-				else if(GroundSinControl.CalculateSinPosition(transform.position) + 2.0f < transform.position.y) {
-					transform.position = Vector3.Slerp(transform.position, verticalVector, 0.009f);
-				}
-				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) < minAngle) {
-					transform.position = Vector3.Slerp(transform.position, verticalVector, cameraCorrectionSpeed);
-				}
-				else if(Vector3.Angle(Vector3.down, player.transform.position - transform.position) > maxAngle){
-					transform.position = Vector3.SlerpUnclamped(verticalVector, transform.position, 1 + cameraCorrectionSpeed);
-				}
-			}*/
 			Vector3 anchorPos = RotatePointAroundPivot(transform.position, player.transform.position + new Vector3(0, player.transform.position.y + 4, -2), 5 * Time.deltaTime);
 			if(GroundSinControl.CalculateSinPosition(transform.position) + 2.4f > transform.position.y) {
 					transform.position = Vector3.SlerpUnclamped(anchorPos, transform.position, 0.015f);
@@ -174,9 +162,9 @@ public class CameraControl : MonoBehaviour {
 	IEnumerator MoveTowardsPlayer() {
 
 		float introLookVerticalOffset = 0;
-		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y + 2.5f, player.transform.position.z);
+		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y + 2.05f, player.transform.position.z);
 		for(float t = 0; Vector3.Distance(player.transform.position, transform.position) > 4; t+= Time.deltaTime) {
-			transform.position = Vector3.Lerp(transform.position, newPos, 0.01f);
+			transform.position = Vector3.Lerp(transform.position, newPos, approachCurve.Evaluate(t));
 			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + introLookVerticalOffset, player.transform.position.z));
 			if(introLookVerticalOffset < lookVerticalOffset) {
 				introLookVerticalOffset += Time.deltaTime;
