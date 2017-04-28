@@ -10,6 +10,10 @@ public class SardinHolderControl : MonoBehaviour {
 	Vector3 playerTemp;
 
 	GameObject player;
+	JellyMesh playerMesh;
+
+	public float pushSpeed;
+	public float maxHeight;
 
 	float dist;
 	float touchTime = 0.0f;
@@ -18,6 +22,7 @@ public class SardinHolderControl : MonoBehaviour {
 	void Start () {
 		posOri = transform.position;
 		player = GameObject.Find ("PlayerShell");
+		playerMesh = player.GetComponent<JellyMesh>();
 	}
 	
 	// Update is called once per frame
@@ -32,8 +37,10 @@ public class SardinHolderControl : MonoBehaviour {
 		transform.position = posOri + heightAdjust;
 
 		dist = Vector3.Distance (posOri, player.transform.position);
-		if (dist < 2) {
-			if (touchTime >= 0 && touchTime <= 0) {
+		if (dist < 2 && player.transform.position.y - transform.position.y < maxHeight) {
+			playerMesh.AddForce(new Vector3(0, pushSpeed, 0), false);
+//			player.transform.position = playerTemp + new Vector3(0, pushSpeed * Time.deltaTime, 0);
+			/*if (touchTime >= 0 && touchTime <= 0) {
 				touchTime = Time.time;
 			}
 			if ( Mathf.Sin(Time.time - touchTime) >= 0 ){
@@ -41,7 +48,8 @@ public class SardinHolderControl : MonoBehaviour {
 				player.transform.position = 
 					playerTemp + 
 					new Vector3 (0, 0.8f * Mathf.Sin(Time.time - touchTime),0);
-			}
+			}*/
+
 		}
 	}
 
