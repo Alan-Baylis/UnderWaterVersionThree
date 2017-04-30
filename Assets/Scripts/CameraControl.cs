@@ -117,10 +117,7 @@ public class CameraControl : MonoBehaviour {
 				transform.position = Vector3.Slerp(anchorPos, transform.position, 0.01f);
 			}
 
-			Vector3 curRotation = player.transform.rotation.eulerAngles;
-			transform.rotation = Quaternion.Euler(0, curRotation.y, 0);
 			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + lookVerticalOffset, player.transform.position.z));
-			//Debug.Log(Vector3.Angle(Vector3.down, player.transform.position - transform.position));
 		}
 	}
 
