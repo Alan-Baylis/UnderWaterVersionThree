@@ -167,8 +167,9 @@ public class CameraControl : MonoBehaviour {
 	IEnumerator MoveTowardsPlayer() {
 
 		float introLookVerticalOffset = 0;
-		Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y + 2.05f, player.transform.position.z);
+		float yPos = transform.position.y + 2.05f;
 		for(float t = 0; Vector3.Distance(player.transform.position, transform.position) > 4; t+= Time.deltaTime) {
+			Vector3 newPos = new Vector3(player.transform.position.x, yPos, player.transform.position.z);
 			transform.position = Vector3.Lerp(transform.position, newPos, approachCurve.Evaluate(t));
 			transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y + introLookVerticalOffset, player.transform.position.z));
 			if(introLookVerticalOffset < lookVerticalOffset) {
