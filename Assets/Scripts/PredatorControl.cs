@@ -6,17 +6,16 @@ using System.Collections.Generic;
 public class PredatorControl : MonoBehaviour {
 
 	public GameObject player;
-	public GameObject gameMessager;
-
 	public float predatorMF;
 	public float attackDist;
 	public float escapeDist;
 	float distToPlayer;
 
 	Rigidbody rbPredator;
-	bool minusAlready = false;
+//	bool minusAlready = false;
 //	bool isShaking = false;
 	bool attacking = false;
+	public bool readyToAttack = true;
 
 	public Material predatorMat;
 	public Material predatorAttMat;
@@ -24,10 +23,13 @@ public class PredatorControl : MonoBehaviour {
 	private Vector3 heightAdjust;
 	private Vector3 posOri;
 
+	private float attackRest=0;
+//	private Vector3 tempPos;
+//	private Vector3 goalPos;
+
 	// Use this for initialization
 	void Start (){
 		player = GameObject.Find ("PlayerShell");
-		gameMessager = GameObject.Find ("GameMessager");
 		rbPredator = GetComponent<Rigidbody> ();
 		this.gameObject.GetComponent<Renderer> ().material = predatorMat;
 	}
@@ -37,18 +39,16 @@ public class PredatorControl : MonoBehaviour {
 
 		distToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
-//		Debug.Log (distToPlayer);
-
 		if (distToPlayer > attackDist && attacking == false){
 			Idle ();
 		}
 
-		if (distToPlayer < attackDist){
+		if (distToPlayer < attackDist && readyToAttack == true){
 			Attack();
 			attacking = true;
 	     }
 
-		if (distToPlayer > escapeDist && attacking == true){
+		if (distToPlayer > escapeDist || readyToAttack == false){
 			StopAttack ();
 			attacking = false;
 		}
@@ -87,6 +87,18 @@ public class PredatorControl : MonoBehaviour {
 
 	// stop attack when player escape (far enough)
 	void StopAttack(){
+//		tempPos = transform.position;
+//		goalPos = new Vector3 (tempPos.x,tempPos.y+0.5f,tempPos.z);
+
+		if (attackRest <= 2) {
+			attackRest += Time.deltaTime;
+			readyToAttack = false;
+			transform.position += new Vector3 (0,0.08f,0);
+		} else if (attackRest > 2){
+			readyToAttack = true;
+			attackRest = 0;
+			gameObject.tag = "Predator";
+		}
 	}
 
 //	IEnumerator ShakeRoutine(){

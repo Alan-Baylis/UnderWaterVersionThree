@@ -4,7 +4,6 @@ using System.Collections;
 
 public class CameraControl : MonoBehaviour {
 
-
 	Image titleText;
 	Text instructionText;
 	Text startText;
@@ -139,13 +138,13 @@ public class CameraControl : MonoBehaviour {
 	IEnumerator FadeInTitleElements() {
 		Color startColorTitle = titleText.color;
 		Color endColorTitle = startColorTitle;
-		endColorTitle.a = 0.5f;
+		endColorTitle.a = 1.0f;
 
 /*		Color startColorInstruction = instructionText.color;
 		Color endColorInstruction = startColorInstruction;
 		endColorInstruction.a = 0;
 */
-		for (float t = 0; t <= 1; t += 0.2f*Time.deltaTime) {
+		for (float t = 0; t <= 1; t += 0.4f*Time.deltaTime) {
 			titleText.color = Color.Lerp (startColorTitle, endColorTitle, t);
 //			instructionText.color = Color.Lerp (startColorInstruction, endColorInstruction, t);
 			yield return null;

@@ -148,8 +148,8 @@ public class GridManager : MonoBehaviour {
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue0");
 		case 'z':
 			return Resources.Load<GameObject> ("StargazerContainer");
-
-		// not using dark cubes in testLevel 1
+		case 'p':
+			return Resources.Load<GameObject> ("Ground-plain");
 		case 't':
 			return Resources.Load<GameObject> ("GroundSinWave0.2Blue1");
 		case 'u':

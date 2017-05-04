@@ -91,13 +91,25 @@ public class PlayerShellControl : MonoBehaviour {
 			cubeLight.range += 0.1f;
 		}
 
-		if(collision.Collision.gameObject.tag == "Predator" || collision.Collision.gameObject.tag == "PredatorStraight")
+		if(collision.Collision.gameObject.tag == "Predator")
 		{
 			Debug.Log(collision.Collision.transform.position - transform.position);
 			StartCoroutine(HitBounce(collision.Collision.transform.position - transform.position));
 			hitParticle.Play();
 			SubtractLife(1);
-			//Destroy(collision.Collision.gameObject);
+			collision.Collision.gameObject.GetComponent<PredatorControl> ().readyToAttack = false;
+//			Destroy(collision.Collision.gameObject);
+			collision.Collision.gameObject.tag = "Finish";
+			hitParticle.Stop ();
+		}
+
+		if(collision.Collision.gameObject.tag == "PredatorStraight")
+		{
+			Debug.Log(collision.Collision.transform.position - transform.position);
+			StartCoroutine(HitBounce(collision.Collision.transform.position - transform.position));
+			hitParticle.Play();
+			SubtractLife(1);
+//			Destroy(collision.Collision.gameObject);
 			collision.Collision.gameObject.tag = "Finish";
 			hitParticle.Stop ();
 		}

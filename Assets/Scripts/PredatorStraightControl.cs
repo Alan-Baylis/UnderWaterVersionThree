@@ -30,11 +30,10 @@ public class PredatorStraightControl : MonoBehaviour {
 	void Start (){
 
 		player = GameObject.Find ("PlayerShell");
-		gameMessager = GameObject.Find ("GameMessager");
 		rbPredator = GetComponent<Rigidbody> ();
 
-		float scale = Random.Range (0.8f, 1.2f);
-		transform.localScale = new Vector3(scale,scale,scale);
+//		float scale = Random.Range (0.8f, 1.2f);
+//		transform.localScale = new Vector3(scale,scale,scale);
 		verticalAttackOffset = Resources.Load<GameObject>("GroundSinWave0.2Blue0").GetComponent<MeshFilter>().sharedMesh.bounds.size.y / 2;
 		verticalAttackOffset += player.GetComponent<MeshFilter>().mesh.bounds.size.y;
 	}

@@ -8,6 +8,7 @@ public class ShellFishControl : MonoBehaviour {
 	private bool hasFallen = false;
 	private bool hasRisen = true;
 	private float timer = 0;
+	public ParticleSystem crashParticle;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +38,10 @@ public class ShellFishControl : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		if (other.gameObject.tag == "Predator" && hasFallen == true){
 			Destroy(other.gameObject);
+			crashParticle.Play ();
+		} 
+		if (other.gameObject.tag == "ShellFish") {
+			crashParticle.Play ();
 		}
 	}
 
@@ -50,9 +55,10 @@ public class ShellFishControl : MonoBehaviour {
 			rb.useGravity = false;
 			transform.position = Vector3.Lerp(transform.position, 
 				new Vector3(transform.position.x, 
-					GroundSinControl.CalculateSinPosition(transform.position) + 3,//(Mathf.Sin(Time.time - transform.position.x * 0.2f - transform.position.z * 0.2f) + 3f),
+					GroundSinControl.CalculateSinPosition(transform.position) + 3,
 					transform.position.z), t);
 			hasRisen = true;
+			crashParticle.Stop ();
 			yield return null;
 		}
 	}
