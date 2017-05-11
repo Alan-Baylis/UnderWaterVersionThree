@@ -37,7 +37,7 @@ public class CameraControl : MonoBehaviour {
 
 	IEnumerator Start () 
 	{
-		player = GameObject.Find ("PlayerShell");
+		//player = GameObject.Find ("PlayerShell");
 		transform.LookAt(new Vector3(player.transform.position.x, player.transform.position.y, player.transform.position.z));
 		blackCurtainControl blackCurtain = GameObject.Find("blackCurtain").GetComponent<blackCurtainControl>();
 		Camera.main.cullingMask ^= 1 << LayerMask.NameToLayer("Ground");

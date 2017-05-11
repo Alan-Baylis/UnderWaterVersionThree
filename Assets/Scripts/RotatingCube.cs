@@ -26,7 +26,7 @@ public class RotatingCube : MonoBehaviour {
 		transform.RotateAround(
 			posOri, 
 			Vector3.forward,
-			0.25f * Mathf.PI);
+			0.1f * Mathf.PI);
 //			rotationCurve.Evaluate (Time.time));
 
 		transform.position = posOri + heightAdjust;

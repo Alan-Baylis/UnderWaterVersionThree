@@ -21,7 +21,7 @@ public class SardinHolderControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		dist = Vector3.Distance (posOri, player.transform.position);
-		if (dist < 1.2f && player.transform.position.y - transform.position.y < maxHeight) {
+		if (dist < 1.1f && player.transform.position.y - transform.position.y < maxHeight) {
 			playerMesh.AddForce(new Vector3(0, pushSpeed, 0), false);
 		}
 	}
