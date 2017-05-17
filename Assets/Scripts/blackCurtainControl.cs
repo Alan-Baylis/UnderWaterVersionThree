@@ -59,6 +59,25 @@ public class blackCurtainControl : MonoBehaviour {
 		gameEnded = true;
 	}
 
+	public void EndGame(Color deathColor, string[] text) {
+		if(!fading && !gameEnded) 
+		StartCoroutine(FadeToColor(deathColor, 2));
+		StartCoroutine(CycleThroughText(text, 4));
+	}
+
+	IEnumerator CycleThroughText(string[] text, float timeForEach) {
+		paragraphText.color = Color.gray;
+		paragraphText.CrossFadeAlpha(0, 0.001f, false);
+		foreach(string sentence in text) {
+			paragraphText.text = sentence;
+			paragraphText.CrossFadeAlpha(1.0f, 1, false);
+			yield return new WaitForSeconds(timeForEach);
+			paragraphText.CrossFadeAlpha(0.0f, 1, false);
+			yield return new WaitForSeconds(1);
+		}
+		gameEnded = true;
+	}
+
 	IEnumerator FadeTextToColor(Color newColor, float duration, float delay) {
 		yield return new WaitForSeconds(delay);
 		Color start = endText.color;
