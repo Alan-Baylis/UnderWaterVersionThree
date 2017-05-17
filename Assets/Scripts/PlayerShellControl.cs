@@ -114,6 +114,17 @@ public class PlayerShellControl : MonoBehaviour {
 			hitParticle.Stop ();
 		}
 
+		if(collision.Collision.gameObject.tag == "BottomFeeder") {
+			Debug.Log(collision.Collision.transform.position - transform.position);
+			StartCoroutine(HitBounce(collision.Collision.transform.position - transform.position));
+			hitParticle.Play();
+			SubtractLife(1);
+			collision.Collision.gameObject.GetComponent<BottomFeederControl> ().readyToAttack = false;
+//			Destroy(collision.Collision.gameObject);
+			collision.Collision.gameObject.tag = "Finish";
+			hitParticle.Stop ();
+		}
+
 		if(collision.Collision.gameObject.tag == "HealthUp") {
 			AddLife(1);
 			Destroy(collision.Collision.gameObject);
